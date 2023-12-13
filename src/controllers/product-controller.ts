@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import productServices from "../services/product-services"
-import { ResponseData } from "../helpers/cbHelpers"
+import { ResponseData } from "../helpers/Helpers"
 
 const productController = {
   getProducts: (req: Request, res: Response, next: NextFunction) => {
