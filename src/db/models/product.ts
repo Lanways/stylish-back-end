@@ -2,26 +2,78 @@
 import { Model, DataTypes, Sequelize, Optional } from 'sequelize'
 
 interface ProductAttributes {
-  id?: number
+  id: number
   name: string
   price: string
+  createdAt: Date
+  updatedAt: Date
+  image: string
+  sizeOptions: string
+  quantity: number
+  description: string
+  additionalImage: string
 }
 
-interface ProductInput extends Optional<ProductAttributes, 'id'> { }
+export interface ProductInput extends Optional<ProductAttributes, 'id' | 'createdAt' | 'updatedAt'> { }
+export interface ProductOutput extends Required<ProductAttributes> { }
 
 export class Product extends Model<ProductAttributes, ProductInput> implements ProductAttributes {
   id!: number
   name!: string
   price!: string
+  createdAt!: Date
+  updatedAt!: Date
+  image!: string
+  sizeOptions!: string
+  quantity!: number
+  description!: string
+  additionalImage!: string
 }
 
 export const productInit = (sequelize: Sequelize) => {
   Product.init({
     id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
       type: DataTypes.INTEGER
     },
-    name: { type: DataTypes.STRING, },
-    price: { type: DataTypes.STRING }
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    price: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    image: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    sizeOptions: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    quantity: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    description: {
+      allowNull: true,
+      type: DataTypes.TEXT
+    },
+    additionalImage: {
+      allowNull: false,
+      type: DataTypes.TEXT
+    }
   }, {
     sequelize,
     modelName: 'Product',
