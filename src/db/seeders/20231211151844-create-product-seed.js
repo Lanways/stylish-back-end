@@ -7,7 +7,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const products = []
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 50; i++) {
       const product = {
         name: faker.animal.lion(),
         price: faker.number.int(999),
