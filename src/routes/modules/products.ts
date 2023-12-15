@@ -3,6 +3,7 @@ import productController from '../../controllers/product-controller'
 
 const router = express.Router()
 
+router.get('/:id', productController.getProduct)
 router.get('/', productController.getProducts)
 
 
