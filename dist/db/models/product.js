@@ -8,10 +8,47 @@ exports.Product = Product;
 const productInit = (sequelize) => {
     Product.init({
         id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
             type: sequelize_1.DataTypes.INTEGER
         },
-        name: { type: sequelize_1.DataTypes.STRING, },
-        price: { type: sequelize_1.DataTypes.STRING }
+        name: {
+            allowNull: false,
+            type: sequelize_1.DataTypes.STRING,
+        },
+        price: {
+            allowNull: false,
+            type: sequelize_1.DataTypes.STRING
+        },
+        createdAt: {
+            allowNull: false,
+            type: sequelize_1.DataTypes.DATE,
+        },
+        updatedAt: {
+            allowNull: false,
+            type: sequelize_1.DataTypes.DATE
+        },
+        image: {
+            allowNull: false,
+            type: sequelize_1.DataTypes.STRING
+        },
+        sizeOptions: {
+            allowNull: false,
+            type: sequelize_1.DataTypes.STRING
+        },
+        quantity: {
+            allowNull: false,
+            type: sequelize_1.DataTypes.INTEGER
+        },
+        description: {
+            allowNull: true,
+            type: sequelize_1.DataTypes.TEXT
+        },
+        additionalImage: {
+            allowNull: false,
+            type: sequelize_1.DataTypes.TEXT
+        }
     }, {
         sequelize,
         modelName: 'Product',
