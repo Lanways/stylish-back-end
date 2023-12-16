@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express'
 import router from './routes'
 import cors from 'cors'
+import swaggerUi from 'swagger-ui-express'
+import swaggerDoc from './swagger-output.json'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -9,6 +11,7 @@ const corsOptions = {
   credentials: true,
 }
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use(cors(corsOptions))
 app.use(router)
 

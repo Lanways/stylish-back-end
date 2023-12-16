@@ -17,11 +17,16 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.0",
     "ts-node-dev": "^2.0.0"
   },
   "scripts": {
     "dev": "tsnd --respawn src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "swagger": "tsc && node ./dist/swagger-spec.js"
   },
   "keywords": [],
   "author": "",
