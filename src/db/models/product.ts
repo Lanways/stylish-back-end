@@ -30,7 +30,7 @@ export class Product extends Model<ProductAttributes, ProductInput> implements P
   additionalImage!: string
 }
 
-export const productInit = (sequelize: Sequelize) => {
+const productInit = (sequelize: Sequelize) => {
   Product.init({
     id: {
       allowNull: false,
@@ -82,3 +82,5 @@ export const productInit = (sequelize: Sequelize) => {
   });
   return Product;
 }
+
+export default productInit

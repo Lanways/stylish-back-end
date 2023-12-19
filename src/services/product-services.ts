@@ -1,12 +1,12 @@
 import { Request } from "express"
-import { Product } from "../db/models"
 import { ProductOutput } from "../db/models/product"
 import { callbackType } from "../helpers/Helpers"
+import db from "../db/models"
 
 const prodcutServices = {
   getProducts: async (req: Request, cb: callbackType<ProductOutput[]>) => {
     try {
-      const products = await Product.findAll()
+      const products = await db.Product.findAll()
       return cb(null,
         products
       )
@@ -18,7 +18,7 @@ const prodcutServices = {
   },
   getProduct: async (productId: string, cb: callbackType<ProductOutput>) => {
     try {
-      const product = await Product.findByPk(productId)
+      const product = await db.Product.findByPk(productId)
       if (!product) {
         return cb(new Error('product is not exist'))
       }

@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import { config } from "../../config/database";
-import { productInit } from "./product";
+import fs from 'fs'
+import path from 'path'
 
 const env = process.env.NODE_ENV as 'development' | 'test' | 'production' || 'development'
 const dbConfig = config[env]
@@ -17,8 +18,14 @@ let sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
 
 const db: { [key: string]: any } = {}
 
-const Product = productInit(sequelize)
-db.Product = Product
+fs.readdirSync(__dirname)
+  .filter(file => {
+    return (file.indexOf('.') !== 0) && (file !== path.basename(__filename)) && (file.slice(-3) === '.ts');
+  })
+  .forEach(file => {
+    const model = require(path.join(__dirname, file)).default(sequelize)
+    db[model.name] = model;
+  });
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
@@ -29,5 +36,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
-export { Product }
 export default db
