@@ -16,4 +16,8 @@ node_modules
 # tsc
 /dist
 
+# swagger
+/src/swagger-output.json
+
+#environment variable
 .env

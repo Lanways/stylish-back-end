@@ -10,3 +10,6 @@ export const productSchema = Joi.object({
   additionalImage: Joi.string().uri().required()
 })
 
+export const idSchema = Joi.object({
+  id: Joi.number().integer().required()
+})

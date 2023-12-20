@@ -4,8 +4,9 @@ import productController from '../../controllers/product-controller'
 const router = express.Router()
 
 router.get('/:id', productController.getProduct)
-router.post('/',productController.postProduct)
+router.post('/', productController.postProduct)
 router.get('/', productController.getProducts)
+router.delete('/:id', productController.removeProduct)
 
 // #swagger.start
 /*
@@ -52,7 +53,25 @@ router.get('/', productController.getProducts)
 } */
 /* #swagger.responses[200] = { schema: { $ref: '#/definitions/postProduct' } } */
 /* #swagger.responses[400] = { description: "The request data is malformed or missing necessary information" } */
-    
+// #swagger.end
+
+// #swagger.start
+/*
+    #swagger.path = '/api/product/{id}'
+    #swagger.tags = ['Product']
+    #swagger.method = 'delete'
+    #swagger.description = '移除產品.'
+    #swagger.produces = ['application/json']
+*/
+/*  #swagger.parameters['id'] = {
+        in: 'path',
+        type: 'integer',
+        description: 'Product ID.'
+    }
+*/
+/* #swagger.responses[200] = { schema: { $ref: '#/definitions/removeProduct' } } */
+/* #swagger.responses[404] = { description: "product is not exist" } */
+
 // #swagger.end
 
 export default router
