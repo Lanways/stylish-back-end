@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.apiErrorHandler = void 0;
+exports.apiErrorHandler = exports.CustomError = void 0;
 class CustomError extends Error {
     constructor(message, status) {
         super(message);
@@ -8,17 +8,18 @@ class CustomError extends Error {
         this.name = 'CustomError';
     }
 }
+exports.CustomError = CustomError;
 const apiErrorHandler = (err, req, res, next) => {
     if (err instanceof CustomError) {
         res.status(err.status || 500).json({
-            status: 'error',
-            message: `${err.name}:${err.message}`
+            status: `${err.status}`,
+            message: err.message
         });
     }
     else if (err instanceof Error) {
         res.status(500).json({
             status: 'error',
-            message: `${err}`
+            message: err.message
         });
     }
     else {

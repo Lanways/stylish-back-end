@@ -14,6 +14,8 @@ const corsOptions = {
     origin: ['http://localhost:3001'],
     credentials: true,
 };
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
 app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_output_json_1.default));
 app.use((0, cors_1.default)(corsOptions));
 app.use(routes_1.default);

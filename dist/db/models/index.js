@@ -1,9 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Product = void 0;
 const sequelize_1 = require("sequelize");
 const database_1 = require("../../config/database");
-const product_1 = require("./product");
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 const env = process.env.NODE_ENV || 'development';
 const dbConfig = database_1.config[env];
 const dbUsername = dbConfig.username;
@@ -16,9 +19,14 @@ let sequelize = new sequelize_1.Sequelize(dbName, dbUsername, dbPassword, {
     dialect: dbDialect
 });
 const db = {};
-const Product = (0, product_1.productInit)(sequelize);
-exports.Product = Product;
-db.Product = Product;
+fs_1.default.readdirSync(__dirname)
+    .filter(file => {
+    return (file.indexOf('.') !== 0) && (file !== path_1.default.basename(__filename)) && (file.slice(-3) === '.ts');
+})
+    .forEach(file => {
+    const model = require(path_1.default.join(__dirname, file)).default(sequelize);
+    db[model.name] = model;
+});
 Object.keys(db).forEach(modelName => {
     if (db[modelName].associate) {
         db[modelName].associate(db);
