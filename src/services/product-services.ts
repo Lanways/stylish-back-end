@@ -2,6 +2,7 @@ import { Request } from "express"
 import { ProductOutput } from "../db/models/product"
 import { callbackType } from "../helpers/Helpers"
 import db from "../db/models"
+import { CustomError } from "../middleware/error-handler"
 
 const prodcutServices = {
   getProducts: async (req: Request, cb: callbackType<ProductOutput[]>) => {
@@ -20,7 +21,7 @@ const prodcutServices = {
     try {
       const product = await db.Product.findByPk(productId)
       if (!product) {
-        return cb(new Error('product is not exist'))
+        return cb(new CustomError('product is not exist', 404))
       }
       return cb(null,
         product
@@ -30,7 +31,31 @@ const prodcutServices = {
         cb(error)
       }
     }
+  },
+  postProduct: async (name: string, price: number, image: string, sizeOptions: string, quantity: number, description: string, additionalImage: string, cb: callbackType<ProductOutput>) => {
+    try {
+      const product = await db.Product.findOne({
+        where: { name }
+      })
+      if (product) cb(new CustomError('product is exist', 409))
+
+      const createdProduct = await db.Product.create({
+        name,
+        price,
+        image,
+        sizeOptions,
+        quantity,
+        description,
+        additionalImage,
+      })
+      return cb(null, createdProduct)
+    } catch (error) {
+      if (error instanceof Error) {
+        cb(error)
+      }
+    }
   }
+
 }
 
 export default prodcutServices

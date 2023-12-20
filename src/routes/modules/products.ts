@@ -3,52 +3,56 @@ import productController from '../../controllers/product-controller'
 
 const router = express.Router()
 
-router.get('/:id',
-  /* 	#swagger.tags = ['Product']
-      #swagger.description = '查詢產品資訊' */
-  /* #swagger.responses[200] = {
-      schema: {
-        "status": "200",
-        "message": "OK",
-        "data": {
-          "id": 7,
-          "name": "Cape lion",
-          "price": "192",
-          "createdAt": "2023-12-14T06:47:26.000Z",
-          "updatedAt": "2023-12-14T06:47:26.000Z",
-          "image": "https://loremflickr.com/640/480/clothing?     lock=1957181607903232",
-          "sizeOptions": "S",
-          "quantity": 1,
-          "description": "Viduo verecundia ambitus convoco aestas.\nCivis utrimque conturbo.\nAutus nihil terra statim astrum admitto tonsor tam cubo.\nVero at contigo necessitatibus vesica aspernatur modi agnosco crux.",
-          "additionalImage": "https://loremflickr.com/640/480/clothing?lock=122186496999424"
-        }
-      },
-    description: "get Product successfully." } */
-  productController.getProduct
-)
-router.get('/',
-  /* 	#swagger.tags = ['Product']
-      #swagger.description = '查詢所有產品' */
-  /* #swagger.responses[200] = {
-      schema: [{
-        "status": "200",
-        "message": "OK",
-        "data": {
-            "id": 7,
-            "name": "Cape lion",
-            "price": "192",
-            "createdAt": "2023-12-14T06:47:26.000Z",
-            "updatedAt": "2023-12-14T06:47:26.000Z",
-            "image": "https://loremflickr.com/640/480/clothing?       lock=1957181607903232",
-            "sizeOptions": "S",
-            "quantity": 1,
-            "description": "Viduo verecundia ambitus convoco aestas.    \nCivis     utrimque conturbo.\nAutus nihil terra statim astrum     admitto tonsor    tam cubo.\nVero at contigo necessitatibus     vesica aspernatur modi    agnosco crux.",
-            "additionalImage": "https://loremflickr.com/640/480/clothing?lock=122186496999424"
-        }
-      }],
-      description: "get Products successfully." } */
-  productController.getProducts
-)
+router.get('/:id', productController.getProduct)
+router.post('/',productController.postProduct)
+router.get('/', productController.getProducts)
 
+// #swagger.start
+/*
+    #swagger.path = '/api/product/{id}'
+    #swagger.tags = ['Product']
+    #swagger.method = 'get'
+    #swagger.description = '查詢產品資訊.'
+    #swagger.produces = ['application/json']
+*/
+/*  #swagger.parameters['id'] = {
+        in: 'path',
+        type: 'integer',
+        description: 'Product ID.'
+    }
+*/
+/* #swagger.responses[200] = { schema: { $ref: '#/definitions/getProductById'} } */
+/* #swagger.responses[404] = { description: "product is not exist" } */
+// #swagger.end
+
+// #swagger.start
+/*
+    #swagger.path = '/api/product/'
+    #swagger.tags = ['Product']
+    #swagger.method = 'get'
+    #swagger.description = '查詢所有產品.'
+    #swagger.produces = ['application/json']
+*/
+/* #swagger.responses[200] = { schema: { $ref: '#/definitions/getProducts'} } */
+// #swagger.end
+
+// #swagger.start
+/*
+    #swagger.path = '/api/product/'
+    #swagger.tags = ['Product']
+    #swagger.method = 'post'
+    #swagger.description = '新增產品.'
+    #swagger.produces = ['application/json']
+*/
+/* #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Product data.',
+    required: true,
+    schema: { $ref: '#/definitions/productBody' }
+} */
+/* #swagger.responses[200] = { schema: { $ref: '#/definitions/postProduct' } } */
+/* #swagger.responses[400] = { description: "The request data is malformed or missing necessary information" } */
+    
+// #swagger.end
 
 export default router

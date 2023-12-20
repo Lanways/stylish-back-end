@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 
-class CustomError extends Error {
+export class CustomError extends Error {
   status: number
   constructor(message: string, status: number) {
     super(message)
@@ -12,13 +12,13 @@ class CustomError extends Error {
 export const apiErrorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof CustomError) {
     res.status(err.status || 500).json({
-      status: 'error',
-      message: `${err.name}:${err.message}`
+      status: `${err.status}`,
+      message: err.message
     })
   } else if (err instanceof Error) {
     res.status(500).json({
       status: 'error',
-      message: `${err}`
+      message: err.message
     })
   } else {
     res.status(500).json({

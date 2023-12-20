@@ -12,3 +12,8 @@ Desktop.ini
 node_modules
 *.log
 *.gz
+
+# tsc
+/dist
+
+.env
