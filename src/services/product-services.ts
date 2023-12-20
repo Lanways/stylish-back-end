@@ -54,6 +54,18 @@ const prodcutServices = {
         cb(error)
       }
     }
+  },
+  removeProduct: async (productId: string, cb: callbackType<ProductOutput>) => {
+    try {
+      const product = await db.Product.findByPk(productId)
+      if (!product) return cb(new CustomError('product is not exist', 404))
+      const removedProduct = await product.destroy()
+      return cb(null, removedProduct)
+    } catch (error) {
+      if (error instanceof Error) {
+        cb(error)
+      }
+    }
   }
 
 }

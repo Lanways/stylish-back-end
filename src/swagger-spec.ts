@@ -63,6 +63,18 @@ const doc = {
         description: "Viduo verecundia ambitus convoco aestas.Civis utrimque conturbo.",
         additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424"
       },]
+    },
+    removeProduct: {
+      id: 7,
+      name: "Cape lion",
+      price: "192",
+      createdAt: "2023-12-14T06:47:26.000Z",
+      updatedAt: "2023-12-14T06:47:26.000Z",
+      image: "https://loremflickr.com/640/480/clothing?lock=1957181607903232",
+      sizeOptions: "S",
+      quantity: 1,
+      description: "Viduo verecundia ambitus convoco aestas.",
+      additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424"
     }
   }
 };
