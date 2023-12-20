@@ -21,7 +21,7 @@ const prodcutServices = {
     try {
       const product = await db.Product.findByPk(productId)
       if (!product) {
-        return cb(new Error('product is not exist'))
+        return cb(new CustomError('product is not exist', 404))
       }
       return cb(null,
         product
@@ -38,7 +38,7 @@ const prodcutServices = {
         where: { name }
       })
       if (product) cb(new CustomError('product is exist', 409))
-      
+
       const createdProduct = await db.Product.create({
         name,
         price,
