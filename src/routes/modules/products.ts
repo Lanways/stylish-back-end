@@ -4,9 +4,10 @@ import productController from '../../controllers/product-controller'
 const router = express.Router()
 
 router.get('/:id', productController.getProduct)
+router.delete('/:id', productController.removeProduct)
+router.put('/:id', productController.putProduct)
 router.post('/', productController.postProduct)
 router.get('/', productController.getProducts)
-router.delete('/:id', productController.removeProduct)
 
 // #swagger.start
 /*
@@ -23,7 +24,7 @@ router.delete('/:id', productController.removeProduct)
     }
 */
 /* #swagger.responses[200] = { schema: { $ref: '#/definitions/getProductById'} } */
-/* #swagger.responses[404] = { description: "product is not exist" } */
+/* #swagger.responses[404] = { description: "product does not exist" } */
 // #swagger.end
 
 // #swagger.start
@@ -53,6 +54,7 @@ router.delete('/:id', productController.removeProduct)
 } */
 /* #swagger.responses[200] = { schema: { $ref: '#/definitions/postProduct' } } */
 /* #swagger.responses[400] = { description: "The request data is malformed or missing necessary information" } */
+// #swagger.responses[409] = { description: "product already exists" }
 // #swagger.end
 
 // #swagger.start
@@ -70,8 +72,33 @@ router.delete('/:id', productController.removeProduct)
     }
 */
 /* #swagger.responses[200] = { schema: { $ref: '#/definitions/removeProduct' } } */
-/* #swagger.responses[404] = { description: "product is not exist" } */
+/* #swagger.responses[404] = { description: "product does not exist" } */
 
 // #swagger.end
 
+// #swagger.start
+/*
+    #swagger.path = '/api/product/{id}'
+    #swagger.tags = ['Product']
+    #swagger.method = 'put'
+    #swagger.description = '更新產品.'
+    #swagger.produces = ['application/json']
+*/
+/*  #swagger.parameters['id'] = {
+        in: 'path',
+        type: 'integer',
+        description: 'Product ID.'
+    }
+*/
+/* #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Product data.',
+    required: true,
+    schema: { $ref: '#/definitions/productBody' }
+} */
+/* #swagger.responses[200] = { schema: { $ref: '#/definitions/getProductById' } } */
+/* #swagger.responses[400] = { description: "The request data is malformed or missing necessary information" } */
+// #swagger.responses[404] = { description: "product does not exist" }
+// #swager.responses[409] = { description: "product name already exists" }
+// #swagger.end
 export default router
