@@ -3,6 +3,7 @@ import { ProductOutput } from "../db/models/product"
 import { callbackType } from "../helpers/Helpers"
 import db from "../db/models"
 import { CustomError } from "../middleware/error-handler"
+import { Op } from "sequelize"
 
 const prodcutServices = {
   getProducts: async (req: Request, cb: callbackType<ProductOutput[]>) => {
@@ -61,6 +62,33 @@ const prodcutServices = {
       if (!product) return cb(new CustomError('product is not exist', 404))
       const removedProduct = await product.destroy()
       return cb(null, removedProduct)
+    } catch (error) {
+      if (error instanceof Error) {
+        cb(error)
+      }
+    }
+  },
+  putProduct: async (productId: string, name: string, price: number, image: string, sizeOptions: string, quantity: number, description: string, additionalImage: string, cb: callbackType<ProductOutput>) => {
+    try {
+      const existingProduct = await db.Product.findOne({
+        where: {
+          name,
+          id: { [Op.ne]: productId }
+        }
+      })
+      if (existingProduct) return cb(new CustomError('product name already exists', 409))
+      const product = await db.Product.findByPk(productId)
+      if (!product) return cb(new CustomError('product does not exist', 404))
+      const updatedProduct = await product.update({
+        name,
+        price,
+        image,
+        sizeOptions,
+        quantity,
+        description,
+        additionalImage,
+      })
+      return cb(null, updatedProduct)
     } catch (error) {
       if (error instanceof Error) {
         cb(error)

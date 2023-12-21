@@ -25,7 +25,8 @@ const productController = {
       sizeOptions,
       quantity,
       description,
-      additionalImage, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
+      additionalImage,
+      (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
   },
   removeProduct: (req: Request, res: Response, next: NextFunction) => {
     const { error, value } = idSchema.validate({ id: req.params.id })
@@ -34,6 +35,24 @@ const productController = {
     }
     const { id: productId } = value
     productServices.removeProduct(productId, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
+  },
+  putProduct: (req: Request, res: Response, next: NextFunction) => {
+    const bodyValidation = productSchema.validate(req.body)
+    const paramsValidation = idSchema.validate({ id: req.params.id })
+    if (bodyValidation.error) return res.status(400).json(ResponseData('400', bodyValidation.error.details[0].message, null))
+    if (paramsValidation.error) return res.status(400).json(ResponseData('400', paramsValidation.error.details[0].message, null))
+    const { name, price, image, sizeOptions, quantity, description, additionalImage } = bodyValidation.value
+    const { id: productId } = paramsValidation.value
+    productServices.putProduct(
+      productId,
+      name,
+      price,
+      image,
+      sizeOptions,
+      quantity,
+      description,
+      additionalImage,
+      (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
   }
 }
 
