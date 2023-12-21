@@ -22,7 +22,7 @@ const prodcutServices = {
     try {
       const product = await db.Product.findByPk(productId)
       if (!product) {
-        return cb(new CustomError('product is not exist', 404))
+        return cb(new CustomError('product does not exist', 404))
       }
       return cb(null,
         product
@@ -38,7 +38,7 @@ const prodcutServices = {
       const product = await db.Product.findOne({
         where: { name }
       })
-      if (product) cb(new CustomError('product is exist', 409))
+      if (product) cb(new CustomError('product already exists', 409))
 
       const createdProduct = await db.Product.create({
         name,
@@ -59,7 +59,7 @@ const prodcutServices = {
   removeProduct: async (productId: string, cb: callbackType<ProductOutput>) => {
     try {
       const product = await db.Product.findByPk(productId)
-      if (!product) return cb(new CustomError('product is not exist', 404))
+      if (!product) return cb(new CustomError('product does not exist', 404))
       const removedProduct = await product.destroy()
       return cb(null, removedProduct)
     } catch (error) {
