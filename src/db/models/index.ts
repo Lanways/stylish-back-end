@@ -13,7 +13,8 @@ const dbDialect = dbConfig.dialect
 
 let sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
   host: dbHost,
-  dialect: dbDialect
+  dialect: dbDialect,
+  logging: false
 })
 
 const db: { [key: string]: any } = {}
@@ -35,5 +36,6 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
+// console.log('db', db.models)
 
 export default db
