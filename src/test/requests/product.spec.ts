@@ -16,7 +16,7 @@ describe('# product requests', () => {
       })
 
       it(' - successfully', async () => {
-        await request(app)
+        const res = await request(app)
           .post('/api/product')
           .send({
             name: 'name',
@@ -29,7 +29,8 @@ describe('# product requests', () => {
           })
           .set('Accept', 'application/json')
           .expect(200)
-        const product = await db.Product.findByPk(1)
+        const productId = res.body.data.id
+        const product = await db.Product.findByPk(productId)
         product.name.should.equal('name')
         product.price.should.equal('999')
         product.image.should.equal('http://image')
@@ -47,9 +48,10 @@ describe('# product requests', () => {
 
   context('# GET', () => {
     describe('GET /api/product', () => {
+      let createdProductId: string
       before(async () => {
         await db.Product.destroy({ where: {}, truncate: true, force: true })
-        await db.Product.create({
+        const createdProduct = await db.Product.create({
           name: 'name',
           price: 999,
           image: "http://image",
@@ -58,6 +60,7 @@ describe('# product requests', () => {
           description: 'description',
           additionalImage: "http://additionalImage"
         })
+        createdProductId = createdProduct.id
       })
       //GET /product
       it(' - successfully', async () => {
@@ -70,7 +73,8 @@ describe('# product requests', () => {
       //GET /product/:id
       it(' - successfully', async () => {
         const res = await request(app)
-          .get('/api/product/1')
+
+          .get(`/api/product/${createdProductId}`)
           .set('Accept', 'application/json')
           .expect(200)
         expect(res.body.data).to.be.an('object')
@@ -83,9 +87,10 @@ describe('# product requests', () => {
 
   context('# PUT', () => {
     describe('PUT /api/product', () => {
+      let createdProductId: string
       before(async () => {
         await db.Product.destroy({ where: {}, truncate: true, force: true })
-        await db.Product.create({
+        const createdProduct = await db.Product.create({
           name: 'name',
           price: 999,
           image: "http://image",
@@ -93,10 +98,11 @@ describe('# product requests', () => {
           quantity: 2,
           additionalImage: "http://additionalImage"
         })
+        createdProductId = createdProduct.id
       })
       it('- successfully', async () => {
         const res = await request(app)
-          .put('/api/product/1')
+          .put(`/api/product/${createdProductId}`)
           .send({
             name: 'putName',
             price: 999,
@@ -113,7 +119,8 @@ describe('# product requests', () => {
           message: 'OK'
         })
         expect(res.body.data.name).to.be.equal('putName')
-        const updateProduct = await db.Product.findByPk(1)
+        const productId = res.body.data.id
+        const updateProduct = await db.Product.findByPk(productId)
         expect(updateProduct.name).to.equal('putName')
       })
       after(async () => {
@@ -124,9 +131,10 @@ describe('# product requests', () => {
 
   context('# DELETE', () => {
     describe('DELETE /api/product', () => {
+      let createdProductId: string
       before(async () => {
         await db.Product.destroy({ where: {}, truncate: true, force: true })
-        await db.Product.create({
+        const createdProduct = await db.Product.create({
           name: 'name',
           price: 999,
           image: "http://image",
@@ -135,10 +143,11 @@ describe('# product requests', () => {
           description: 'description',
           additionalImage: "http://additionalImage"
         })
+        createdProductId = createdProduct.id
       })
       it('- successfully', async () => {
         const res = await request(app)
-          .delete('/api/product/1')
+          .delete(`/api/product/${createdProductId}`)
           .set('Appect', 'appilcation/json')
           .expect(200)
         expect(res.body).to.be.an('object')
@@ -155,7 +164,7 @@ describe('# product requests', () => {
           description: 'description',
           additionalImage: "http://additionalImage"
         })
-        const deletedProduct = await db.Product.findByPk(1)
+        const deletedProduct = await db.Product.findByPk(createdProductId)
         expect(deletedProduct).to.be.null
       })
       after(async () => {
