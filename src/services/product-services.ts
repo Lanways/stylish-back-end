@@ -60,8 +60,8 @@ const prodcutServices = {
     try {
       const product = await db.Product.findByPk(productId)
       if (!product) return cb(new CustomError('product does not exist', 404))
-      const removedProduct = await product.destroy()
-      return cb(null, removedProduct)
+      await product.destroy()
+      return cb(null, product)
     } catch (error) {
       if (error instanceof Error) {
         cb(error)
