@@ -24,21 +24,21 @@ export const config: EnvConfig =
     "username": process.env.DB_USER as string,
     "password": process.env.DB_PASS as string,
     "database": process.env.DB_NAME as string,
-    "host": "127.0.0.1",
+    "host": process.env.DB_HOST as string,
     "dialect": "postgres"
   },
   "test": {
     "username": process.env.DB_USER as string,
     "password": process.env.DB_PASS as string,
     "database": process.env.DB_NAME_TEST as string,
-    "host": "127.0.0.1",
+    "host": process.env.DB_HOST as string,
     "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": 'password',
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": process.env.DB_USER as string,
+    "password": process.env.DB_PASS as string,
+    "database": process.env.DB_NAME as string,
+    "host": process.env.DB_HOST as string,
     "dialect": "postgres"
   }
 }
