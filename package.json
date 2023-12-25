@@ -41,7 +41,7 @@
   "scripts": {
     "dev": "set \"NODE_ENV=development\" && tsnd --respawn src/app.ts",
     "test": "set \"NODE_ENV=test\" && mocha -r ts-node/register 'src/test/**/*.ts' --exit --timeout 5000",
-    "swagger": "tsc && node ./dist/swagger-spec.js"
+    "swagger": "tsc src/swagger-spec.ts --outDir dist && node ./dist/swagger-spec.js"
   },
   "keywords": [],
   "author": "",
