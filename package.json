@@ -13,6 +13,9 @@
     "@types/sinon": "^17.0.2",
     "@types/sinon-chai": "^3.2.12",
     "@types/supertest": "^2.0.16",
+    "@types/swagger-ui-express": "^4.1.6",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.0",
     "chai": "^4.3.10",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -32,16 +35,16 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@types/swagger-jsdoc": "^6.0.4",
-    "@types/swagger-ui-express": "^4.1.6",
-    "swagger-autogen": "^2.23.7",
-    "swagger-ui-express": "^5.0.0",
     "ts-node-dev": "^2.0.0"
   },
   "scripts": {
     "dev": "set \"NODE_ENV=development\" && tsnd --respawn src/app.ts",
     "test": "set \"NODE_ENV=test\" && mocha -r ts-node/register 'src/test/**/*.ts' --exit --timeout 5000",
-    "swagger": "tsc src/swagger-spec.ts --outDir dist && node ./dist/swagger-spec.js"
+    "swagger": "node ./dist/swagger-spec.js",
+    "start": "node dist/app.js",
+    "build": "tsc",
+    "migrate-and-seed": "npx sequelize db:migrate && npx sequelize db:seed:all",
+    "undo-seed-and-migrate": "npx sequelize db:seed:undo:all && npx sequelize db:migrate:undo"
   },
   "keywords": [],
   "author": "",
