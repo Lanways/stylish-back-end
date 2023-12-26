@@ -2,8 +2,15 @@ import express, { Request, Response } from 'express'
 import router from './routes'
 import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
-import swaggerDoc from './swagger-output.json'
+import { existsSync } from 'fs'
+import path from 'path'
 
+let swaggerDoc
+const swaggerDocPath = path.join(__dirname, 'swagger-output.json')
+
+if (existsSync(swaggerDocPath)) {
+  swaggerDoc = require(swaggerDocPath)
+}
 const app = express()
 const PORT = process.env.PORT || 3000
 const corsOptions = {
