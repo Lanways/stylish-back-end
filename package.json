@@ -40,7 +40,7 @@
   "scripts": {
     "dev": "set \"NODE_ENV=development\" && tsnd --respawn src/app.ts",
     "test": "set \"NODE_ENV=test\" && mocha -r ts-node/register 'src/test/**/*.ts' --exit --timeout 5000",
-    "swagger": "node ./dist/swagger-spec.js",
+    "swagger": "node ./dist/swagger-spec.js && cp src/swagger-output.json dist/swagger-output.json",
     "start": "node dist/app.js",
     "build": "tsc",
     "migrate-and-seed": "npx sequelize db:migrate && npx sequelize db:seed:all",
