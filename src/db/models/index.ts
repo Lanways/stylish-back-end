@@ -10,6 +10,7 @@ const dbPassword = dbConfig.password
 const dbName = dbConfig.database
 const dbHost = dbConfig.host
 const dbDialect = dbConfig.dialect
+const fileExtention = (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') ? '.ts' : '.js'
 
 let sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
   host: dbHost,
@@ -21,7 +22,7 @@ const db: { [key: string]: any } = {}
 
 fs.readdirSync(__dirname)
   .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== path.basename(__filename)) && (file.slice(-3) === '.ts');
+    return (file.indexOf('.') !== 0) && (file !== path.basename(__filename)) && (file.slice(-3) === fileExtention);
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file)).default(sequelize)
@@ -36,6 +37,5 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
-// console.log('db', db.models)
 
 export default db
