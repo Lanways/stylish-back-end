@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
-import { config } from "../../config/database";
+import { EnvConfig } from "../../config/database";
+const config = require('../../config/database') as EnvConfig
 import fs from 'fs'
 import path from 'path'
 

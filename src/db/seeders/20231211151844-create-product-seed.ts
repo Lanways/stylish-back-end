@@ -1,10 +1,11 @@
 'use strict';
 
+import { QueryInterface } from "sequelize";
 const { faker } = require('@faker-js/faker')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface: QueryInterface) {
     const products = []
 
     for (let i = 0; i < 50; i++) {
@@ -26,7 +27,7 @@ module.exports = {
     await queryInterface.bulkInsert('Products', products)
   },
 
-  async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Products')
+  async down(queryInterface: QueryInterface) {
+    await queryInterface.bulkDelete('Products', {})
   }
 };

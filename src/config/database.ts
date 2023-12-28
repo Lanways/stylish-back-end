@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
 }
 
-interface EnvConfig {
+export interface EnvConfig {
   development: DBConfig
   test: DBConfig
   production: DBConfig
@@ -18,7 +18,7 @@ interface DBConfig {
   dialect: Dialect
 }
 
-export const config: EnvConfig =
+const config: EnvConfig =
 {
   "development": {
     "username": process.env.DB_USER as string,
@@ -42,3 +42,5 @@ export const config: EnvConfig =
     "dialect": "postgres"
   }
 }
+
+module.exports = config
