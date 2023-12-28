@@ -1,11 +1,15 @@
 import swaggerAutogen from 'swagger-autogen'
+import dotenv from 'dotenv'
+dotenv.config()
 
+const host = process.env.SWAGGER_HOST
 const doc = {
   info: {
     title: 'Stylish',
     description: 'Description'
   },
-  host: 'localhost:3000',
+  host: host,
+  schemes: ['http', 'https'],
   definitions: {
     postProduct: {
       status: "200",
