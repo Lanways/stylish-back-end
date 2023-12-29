@@ -1,14 +1,16 @@
 'use strict';
-
-import { QueryInterface } from "sequelize";
+/** @type {import('sequelize-cli').Migration} */
 const { faker } = require('@faker-js/faker')
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface: QueryInterface) {
+  async up(queryInterface: any) {
+    const categories = await queryInterface.sequelize.query(
+      `SELECT id FROM "Categories";`,
+      { type: queryInterface.sequelize.QueryTypes.SELECT }
+    )
     const products = []
-
     for (let i = 0; i < 50; i++) {
+      const random = Math.floor(Math.random() * categories.length)
       const product = {
         name: faker.animal.lion(),
         price: faker.number.int(999),
@@ -18,16 +20,15 @@ module.exports = {
         size_options: faker.string.fromCharacters('SML'),
         quantity: faker.string.numeric(),
         description: faker.lorem.lines(),
-        additional_image: faker.image.urlLoremFlickr({ category: 'clothing' })
+        additional_image: faker.image.urlLoremFlickr({ category: 'clothing' }),
+        category_id: categories[random].id
       }
-
       products.push(product)
     }
-
     await queryInterface.bulkInsert('Products', products)
   },
 
-  async down(queryInterface: QueryInterface) {
+  async down(queryInterface: any) {
     await queryInterface.bulkDelete('Products', {})
   }
 };
