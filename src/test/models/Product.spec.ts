@@ -14,11 +14,18 @@ describe('# Product Model', () => {
   })
 
   let Product: typeof db.Product
-  before(() => {
+  let category: typeof db.Category
+
+  before(async () => {
     Product = productInit.default(sequelize)
+    const res = await db.Category.create({ name: 'category' })
+    category = res
   })
 
-  after(() => {
+  after(async () => {
+    if (category) {
+      await db.Category.destroy({ where: { id: category.id } })
+    }
     Product.init.resetHistory()
   })
 
@@ -34,7 +41,7 @@ describe('# Product Model', () => {
 
   context('action', () => {
     let data: ProductOutput | null = null
-    
+
     it('create', async () => {
       const product = await db.Product.create({
         name: 'T-shirt',
@@ -43,7 +50,8 @@ describe('# Product Model', () => {
         sizeOptions: "S",
         quantity: 2,
         description: "kpop style",
-        additionalImage: "http://additionalImage"
+        additionalImage: "http://additionalImage",
+        categoryId: category.id
       })
       data = product
     })
