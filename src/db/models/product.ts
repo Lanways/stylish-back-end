@@ -12,12 +12,16 @@ interface ProductAttributes {
   quantity: number
   description: string
   additionalImage: string
+  categoryId: string
 }
 
 export interface ProductInput extends Optional<ProductAttributes, 'id' | 'createdAt' | 'updatedAt'> { }
 export interface ProductOutput extends Required<ProductAttributes> { }
 
 export class Product extends Model<ProductAttributes, ProductInput> implements ProductAttributes {
+  static associate(models: any) {
+    Product.belongsTo(models.Category, { foreignKey: 'categoryId' })
+  }
   id!: number
   name!: string
   price!: string
@@ -28,6 +32,7 @@ export class Product extends Model<ProductAttributes, ProductInput> implements P
   quantity!: number
   description!: string
   additionalImage!: string
+  categoryId!: string
 }
 
 const productInit = (sequelize: Sequelize) => {
@@ -73,7 +78,10 @@ const productInit = (sequelize: Sequelize) => {
     additionalImage: {
       allowNull: false,
       type: DataTypes.TEXT
-    }
+    }, categoryId: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
   }, {
     sequelize,
     modelName: 'Product',
