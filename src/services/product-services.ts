@@ -33,13 +33,16 @@ const prodcutServices = {
       }
     }
   },
-  postProduct: async (name: string, price: number, image: string, sizeOptions: string, quantity: number, description: string, additionalImage: string, cb: callbackType<ProductOutput>) => {
+  postProduct: async (name: string, price: number, image: string, sizeOptions: string, quantity: number, description: string, additionalImage: string, categoryId: string, cb: callbackType<ProductOutput>) => {
     try {
       const product = await db.Product.findOne({
         where: { name }
       })
       if (product) cb(new CustomError('product already exists', 409))
-
+      const category = await db.Category.findByPk(categoryId)
+      if (!category) {
+        cb(new CustomError('category does not exist', 404))
+      }
       const createdProduct = await db.Product.create({
         name,
         price,
@@ -48,6 +51,7 @@ const prodcutServices = {
         quantity,
         description,
         additionalImage,
+        categoryId
       })
       return cb(null, createdProduct)
     } catch (error) {
@@ -68,7 +72,7 @@ const prodcutServices = {
       }
     }
   },
-  putProduct: async (productId: string, name: string, price: number, image: string, sizeOptions: string, quantity: number, description: string, additionalImage: string, cb: callbackType<ProductOutput>) => {
+  putProduct: async (productId: string, name: string, price: number, image: string, sizeOptions: string, quantity: number, description: string, additionalImage: string, categoryId: string, cb: callbackType<ProductOutput>) => {
     try {
       const existingProduct = await db.Product.findOne({
         where: {
@@ -79,6 +83,10 @@ const prodcutServices = {
       if (existingProduct) return cb(new CustomError('product name already exists', 409))
       const product = await db.Product.findByPk(productId)
       if (!product) return cb(new CustomError('product does not exist', 404))
+      const category = await db.Category.findByPk(categoryId)
+      if (!category) {
+        cb(new CustomError('category does not exist', 404))
+      }
       const updatedProduct = await product.update({
         name,
         price,
