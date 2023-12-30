@@ -10,9 +10,13 @@ describe('# product requests', () => {
 
   context('# POST', () => {
     describe('POST /api/product', () => {
+      let categoryId: string
       before(async () => {
         //清除測試資料
-        await db.Product.destroy({ where: {}, truncate: true, force: true })
+        await db.Product.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
+        const category = await db.Category.create({ name: 'category' })
+        categoryId = category.id
       })
 
       it(' - successfully', async () => {
@@ -25,7 +29,8 @@ describe('# product requests', () => {
             sizeOptions: "S",
             quantity: 2,
             description: 'description',
-            additionalImage: "http://additionalImage"
+            additionalImage: "http://additionalImage",
+            categoryId: categoryId
           })
           .set('Accept', 'application/json')
           .expect(200)
@@ -41,7 +46,8 @@ describe('# product requests', () => {
       })
 
       after(async () => {
-        await db.Product.destroy({ where: {}, truncate: true, force: true })
+        await db.Product.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
       })
     })
   })
@@ -50,7 +56,9 @@ describe('# product requests', () => {
     describe('GET /api/product', () => {
       let createdProductId: string
       before(async () => {
-        await db.Product.destroy({ where: {}, truncate: true, force: true })
+        await db.Product.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
+        const category = await db.Category.create({ name: 'category' })
         const createdProduct = await db.Product.create({
           name: 'name',
           price: 999,
@@ -58,7 +66,8 @@ describe('# product requests', () => {
           sizeOptions: "S",
           quantity: 2,
           description: 'description',
-          additionalImage: "http://additionalImage"
+          additionalImage: "http://additionalImage",
+          categoryId: category.id
         })
         createdProductId = createdProduct.id
       })
@@ -80,7 +89,8 @@ describe('# product requests', () => {
         expect(res.body.data).to.be.an('object')
       })
       after('', async () => {
-        await db.Product.destroy({ where: {}, truncate: true, force: true })
+        await db.Product.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
       })
     })
   })
@@ -88,15 +98,20 @@ describe('# product requests', () => {
   context('# PUT', () => {
     describe('PUT /api/product', () => {
       let createdProductId: string
+      let categoryId: string
       before(async () => {
-        await db.Product.destroy({ where: {}, truncate: true, force: true })
+        await db.Product.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
+        const category = await db.Category.create({ name: 'category' })
+        categoryId = category.id
         const createdProduct = await db.Product.create({
           name: 'name',
           price: 999,
           image: "http://image",
           sizeOptions: "S",
           quantity: 2,
-          additionalImage: "http://additionalImage"
+          additionalImage: "http://additionalImage",
+          categoryId: categoryId
         })
         createdProductId = createdProduct.id
       })
@@ -109,7 +124,8 @@ describe('# product requests', () => {
             image: "http://image",
             sizeOptions: "S",
             quantity: 2,
-            additionalImage: "http://additionalImage"
+            additionalImage: "http://additionalImage",
+            categoryId: categoryId
           })
           .set('Accept', 'application/json')
           .expect(200)
@@ -124,7 +140,8 @@ describe('# product requests', () => {
         expect(updateProduct.name).to.equal('putName')
       })
       after(async () => {
-        await db.Product.destroy({ where: {}, truncate: true, force: true })
+        await db.Product.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
       })
     })
   })
@@ -133,7 +150,9 @@ describe('# product requests', () => {
     describe('DELETE /api/product', () => {
       let createdProductId: string
       before(async () => {
-        await db.Product.destroy({ where: {}, truncate: true, force: true })
+        await db.Product.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
+        const category = await db.Category.create({ name: 'category' })
         const createdProduct = await db.Product.create({
           name: 'name',
           price: 999,
@@ -141,14 +160,15 @@ describe('# product requests', () => {
           sizeOptions: "S",
           quantity: 2,
           description: 'description',
-          additionalImage: "http://additionalImage"
+          additionalImage: "http://additionalImage",
+          categoryId: category.id
         })
         createdProductId = createdProduct.id
       })
       it('- successfully', async () => {
         const res = await request(app)
           .delete(`/api/product/${createdProductId}`)
-          .set('Appect', 'appilcation/json')
+          .set('Accept', 'appilcation/json')
           .expect(200)
         expect(res.body).to.be.an('object')
         expect(res.body).to.be.include({
@@ -168,7 +188,8 @@ describe('# product requests', () => {
         expect(deletedProduct).to.be.null
       })
       after(async () => {
-        await db.Product.destroy({ where: {}, truncate: true, force: true })
+        await db.Product.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
       })
     })
   })

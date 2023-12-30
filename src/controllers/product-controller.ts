@@ -16,7 +16,7 @@ const productController = {
     if (error) {
       return res.status(400).json(ResponseData('400', error.details[0].message, null))
     }
-    const { name, price, image, sizeOptions, quantity, description, additionalImage } = value
+    const { name, price, image, sizeOptions, quantity, description, additionalImage, categoryId } = value
 
     productServices.postProduct(
       name,
@@ -26,6 +26,7 @@ const productController = {
       quantity,
       description,
       additionalImage,
+      categoryId,
       (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
   },
   removeProduct: (req: Request, res: Response, next: NextFunction) => {
@@ -41,7 +42,7 @@ const productController = {
     const paramsValidation = idSchema.validate({ id: req.params.id })
     if (bodyValidation.error) return res.status(400).json(ResponseData('400', bodyValidation.error.details[0].message, null))
     if (paramsValidation.error) return res.status(400).json(ResponseData('400', paramsValidation.error.details[0].message, null))
-    const { name, price, image, sizeOptions, quantity, description, additionalImage } = bodyValidation.value
+    const { name, price, image, sizeOptions, quantity, description, additionalImage, categoryId } = bodyValidation.value
     const { id: productId } = paramsValidation.value
     productServices.putProduct(
       productId,
@@ -52,6 +53,7 @@ const productController = {
       quantity,
       description,
       additionalImage,
+      categoryId,
       (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
   }
 }
