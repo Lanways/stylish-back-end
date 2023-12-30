@@ -7,7 +7,8 @@ export const productSchema = Joi.object({
   sizeOptions: Joi.string().valid('S', 'M', 'L').required(),
   quantity: Joi.number().integer().min(0).required(),
   description: Joi.string().max(200),
-  additionalImage: Joi.string().uri().required()
+  additionalImage: Joi.string().uri().required(),
+  categoryId: Joi.number().integer().required()
 })
 
 export const idSchema = Joi.object({
