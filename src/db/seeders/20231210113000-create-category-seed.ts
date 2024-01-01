@@ -37,6 +37,10 @@ module.exports = {
         name: '限時優惠',
         created_at: new Date(),
         updated_at: new Date()
+      }, {
+        name: '未分類',
+        created_at: new Date(),
+        updated_at: new Date()
       },
 
     ]
