@@ -23,6 +23,7 @@ const doc = {
         quantity: 2,
         description: "123",
         additionalImage: "http://232323.456",
+        categoryId: 2,
         updatedAt: "2023-12-20T18:02:15.641Z",
         createdAt: "2023-12-20T18:02:15.641Z"
       }
@@ -35,6 +36,7 @@ const doc = {
       quantity: 2,
       description: "123",
       additionalImage: "http://232323.456",
+      categoryId: 2
     },
     getProductById: {
       status: "200",
@@ -49,7 +51,8 @@ const doc = {
         sizeOptions: "S",
         quantity: 1,
         description: "Viduo verecundia ambitus convoco aestas.Civis utrimque conturbo.",
-        additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424"
+        additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424",
+        categoryId: 2
       }
     },
     getProducts: {
@@ -65,20 +68,60 @@ const doc = {
         sizeOptions: "S",
         quantity: 1,
         description: "Viduo verecundia ambitus convoco aestas.Civis utrimque conturbo.",
-        additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424"
+        additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424",
+        categoryId: 2
       },]
     },
     removeProduct: {
-      id: 7,
-      name: "Cape lion",
-      price: "192",
-      createdAt: "2023-12-14T06:47:26.000Z",
-      updatedAt: "2023-12-14T06:47:26.000Z",
-      image: "https://loremflickr.com/640/480/clothing?lock=1957181607903232",
-      sizeOptions: "S",
-      quantity: 1,
-      description: "Viduo verecundia ambitus convoco aestas.",
-      additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424"
+      status: "200",
+      message: "OK",
+      data: {
+        id: 7,
+        name: "Cape lion",
+        price: "192",
+        createdAt: "2023-12-14T06:47:26.000Z",
+        updatedAt: "2023-12-14T06:47:26.000Z",
+        image: "https://loremflickr.com/640/480/clothing?lock=1957181607903232",
+        sizeOptions: "S",
+        quantity: 1,
+        description: "Viduo verecundia ambitus convoco aestas.",
+        additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424",
+        categoryId: 2
+      }
+    },
+    getCategoryById: {
+      status: "200",
+      message: "OK",
+      data: {
+        "id": 5,
+        "name": "熱銷商品",
+        "createdAt": "2023-12-30T07:44:05.941Z",
+        "updatedAt": "2023-12-30T07:44:05.941Z"
+      }
+    },
+    getCategories: {
+      status: "200",
+      message: "OK",
+      data: [
+        {
+          "id": 1,
+          "name": "所有商品",
+          "createdAt": "2023-12-30T07:44:05.941Z",
+          "updatedAt": "2023-12-30T07:44:05.941Z"
+        },]
+    },
+    categoryBody: {
+      name: 'categoryName'
+    },
+    postCategory: {
+      status: "200",
+      message: "OK",
+      data: {
+        "id": 19,
+        "name": "冬季限定",
+        "updatedAt": "2024-01-02T08:05:24.082Z",
+        "createdAt": "2024-01-02T08:05:24.082Z"
+      }
     }
   }
 };

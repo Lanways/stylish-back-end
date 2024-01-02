@@ -29,7 +29,7 @@ const categoryService = {
   postCategory: async (name: string, cb: callbackType<CategoryOutput>) => {
     try {
       const categoryExisting = await db.Category.findOne({ where: { name: name } })
-      if (categoryExisting) return cb(new CustomError('category is exists', 409))
+      if (categoryExisting) return cb(new CustomError('category does exist', 409))
       const category = await db.Category.create({ name: name })
       return cb(null, category)
     } catch (error: unknown) {
@@ -42,7 +42,7 @@ const categoryService = {
   putCategory: async (name: string, categoryId: string, cb: callbackType<CategoryOutput>) => {
     try {
       const categoryExisting = await db.Category.findOne({ where: { name } })
-      if (categoryExisting) return cb(new CustomError('category is exists', 409))
+      if (categoryExisting) return cb(new CustomError('category does exist', 409))
       const category = await db.Category.findByPk(categoryId)
       if (!category) return cb(new CustomError('category does not exist', 404))
       const updateCategory = await category.update({
