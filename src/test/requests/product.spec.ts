@@ -77,7 +77,9 @@ describe('# product requests', () => {
           .get('/api/product')
           .set('Accept', 'application/json')
           .expect(200)
-        expect(res.body.data).to.be.an('array')
+        const productRes = res.body.data
+        expect(productRes.products).to.be.an('array')
+        expect(productRes.pagination).to.be.an('object')
       })
       //GET /product/:id
       it(' - successfully', async () => {
