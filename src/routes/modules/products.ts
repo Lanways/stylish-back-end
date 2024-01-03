@@ -35,6 +35,26 @@ router.get('/', productController.getProducts)
     #swagger.description = '查詢所有產品.'
     #swagger.produces = ['application/json']
 */
+/*
+    #swagger.parameters['page'] = {
+        in: 'query',
+        type: 'integer',
+        description: 'default 1'
+    }
+*/
+/*
+    #swagger.parameters['limit'] = {
+        in: 'query',
+        type: 'integer',
+        description: 'default 10'
+    }
+*/
+/*
+    #swagger.parameters['categoryId'] = {
+        in: 'query',
+        type: 'integer',
+    }
+*/
 /* #swagger.responses[200] = { schema: { $ref: '#/definitions/getProducts'} } */
 // #swagger.end
 

@@ -1,16 +1,27 @@
-import { Request } from "express"
 import { ProductOutput } from "../db/models/product"
 import { callbackType } from "../helpers/Helpers"
 import db from "../db/models"
 import { CustomError } from "../middleware/error-handler"
 import { Op } from "sequelize"
+import { getOffset, getPagination, Pagination } from "../helpers/pagination-helper"
 
 const prodcutServices = {
-  getProducts: async (req: Request, cb: callbackType<ProductOutput[]>) => {
+  getProducts: async (page: number, limit: number, categoryId: number | null, cb: callbackType<{ products: ProductOutput[], pagination: Pagination }>) => {
     try {
-      const products = await db.Product.findAll()
+      const offset = getOffset(limit, page)
+      const categoryIdExisting = categoryId ? { categoryId: categoryId } : {}
+      const products = await db.Product.findAll({
+        where: categoryIdExisting,
+        limit,
+        offset
+      })
+      const total = await db.Product.count({ where: categoryIdExisting })
+      const pagination = getPagination(limit, page, total)
       return cb(null,
-        products
+        {
+          products,
+          pagination
+        }
       )
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -95,6 +106,7 @@ const prodcutServices = {
         quantity,
         description,
         additionalImage,
+        categoryId
       })
       return cb(null, updatedProduct)
     } catch (error) {

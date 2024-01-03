@@ -70,6 +70,12 @@ router.post('/', categoryController.postCategory)
     required: true,
     schema: { $ref: '#/definitions/categoryBody' }
 } */
+/*  #swagger.parameters['id'] = {
+        in: 'path',
+        type: 'integer',
+        description: 'Category ID.'
+    }
+*/
 /* #swagger.responses[200] = { schema: { $ref: '#/definitions/postCategory' } } */
 /* #swagger.responses[400] = { description: "The request data is malformed or missing necessary information" } */
 // #swagger.responses[409] = { description: "category does exist" }
@@ -86,7 +92,7 @@ router.post('/', categoryController.postCategory)
 */
 /* #swagger.parameters['id'] = {
     in: 'path',
-    type: integer
+    type: 'integer',
     description: 'Category ID.'
 } */
 /* #swagger.responses[200] = { schema: { $ref: '#/definitions/getCategoryById' } } */
