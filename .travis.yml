@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+  - "14"
+
+services:
+  - postgres
+
+env:
+  - NODE_ENV=test
+
+before_install:
+  - psql -c 'create database stylish_test;' -U postgres
+  - npm install
+  - npm run build
+  - npm run swagger
+  - npm install sequelize-cli -g
+
+before_script:
+  - sequelize db:migrate
+
+script:
+ - npm run test
