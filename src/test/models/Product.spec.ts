@@ -40,7 +40,7 @@ describe('# Product Model', () => {
   });
 
   context('action', () => {
-    let data: ProductOutput | null = null
+    let data: ProductOutput
 
     it('create', async () => {
       const product = await db.Product.create({
