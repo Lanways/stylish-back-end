@@ -44,7 +44,7 @@ const userController = {
     }
     const { id: userId } = paramsVaildation.value
     if (req.user && req.user.id !== userId) {
-      return res.status(403).json({ message: "Forbidden" });
+      return res.status(403).json(ResponseData('403', 'Forbidden', null));
     }
     const { name, account, password, address } = bodyValidation.value
     userService.putUser(userId, name, account, password, address, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
