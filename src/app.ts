@@ -1,9 +1,10 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import router from './routes'
 import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 import { existsSync } from 'fs'
 import path from 'path'
+import passport from './config/passport'
 
 let swaggerDoc
 const swaggerDocPath = path.join(__dirname, 'swagger-output.json')
@@ -21,11 +22,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use(cors(corsOptions))
+app.use(passport.initialize())
 app.use(router)
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World')
-})
 
 app.listen(PORT, () => {
   console.log(`App is running on http://locahost${PORT}`)
