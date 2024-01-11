@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import categoryService from "../services/category-service"
 import { ResponseData } from "../helpers/Helpers"
-import { idSchema } from "../schemas/productSchema"
+import { idSchema } from "../schemas/commonSchema"
 import { categorySchema } from "../schemas/categorySchema"
 
 const categoryController = {
