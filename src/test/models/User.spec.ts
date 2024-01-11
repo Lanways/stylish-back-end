@@ -35,7 +35,8 @@ describe('User Model', () => {
     it('create', async () => {
       const res = await db.User.create({
         email: 'mcbluedd@hotmail',
-        phone: '0999'
+        phone: '0999',
+        password:'password'
       })
       data = res
     })
