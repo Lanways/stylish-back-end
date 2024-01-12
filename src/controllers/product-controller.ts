@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express"
 import productServices from "../services/product-services"
 import { ResponseData } from "../helpers/Helpers"
-import { productSchema, idSchema, productQuerySchema } from "../schemas/productSchema"
+import { productSchema, productQuerySchema } from "../schemas/productSchema"
+import { idSchema } from "../schemas/commonSchema"
 
 const productController = {
   getProducts: (req: Request, res: Response, next: NextFunction) => {

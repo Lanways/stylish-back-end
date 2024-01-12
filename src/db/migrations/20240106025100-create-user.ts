@@ -12,7 +12,14 @@ module.exports = {
       name: {
         type: DataTypes.STRING
       },
+      account: {
+        type: DataTypes.STRING
+      },
       email: {
+        allowNull: false,
+        type: DataTypes.STRING
+      },
+      password: {
         allowNull: false,
         type: DataTypes.STRING
       },
@@ -22,6 +29,9 @@ module.exports = {
       },
       address: {
         type: DataTypes.STRING
+      },
+      is_Admin: {
+        type: DataTypes.BOOLEAN
       },
       created_at: {
         allowNull: false,

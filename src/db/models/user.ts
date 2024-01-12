@@ -3,9 +3,12 @@ import { DataTypes, Model, Optional, Sequelize } from "sequelize"
 interface UserAttributes {
   id: number
   name?: string
+  account?: string
   email: string
+  password: string
   phone: number
   address?: string
+  isAdmin?: boolean
   createdAt: Date
   updatedAt: Date
 }
@@ -16,9 +19,12 @@ export interface UserOutput extends Required<UserAttributes> { }
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   id!: number
   name?: string
+  account?: string
   email!: string
+  password!: string
   phone!: number
   address?: string
+  isAdmin?: boolean
   createdAt!: Date
   updatedAt!: Date
 }
@@ -34,7 +40,14 @@ const userInit = (sequelize: Sequelize) => {
     name: {
       type: DataTypes.STRING
     },
+    account: {
+      type: DataTypes.STRING
+    },
     email: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    password: {
       allowNull: false,
       type: DataTypes.STRING
     },
@@ -44,6 +57,9 @@ const userInit = (sequelize: Sequelize) => {
     },
     address: {
       type: DataTypes.STRING
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN
     },
     createdAt: {
       allowNull: false,

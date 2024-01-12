@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { paginationSchema } from "./commonSchema";
 
 export const productSchema = Joi.object({
   name: Joi.string().min(3).max(50).required(),
@@ -11,12 +12,6 @@ export const productSchema = Joi.object({
   categoryId: Joi.number().integer().required()
 })
 
-export const idSchema = Joi.object({
-  id: Joi.number().integer().required()
-})
-
-export const productQuerySchema = Joi.object({
-  page: Joi.number().integer().min(1).default(1),
-  limit: Joi.number().integer().min(1).default(10),
+export const productQuerySchema = paginationSchema.keys({
   categoryId: Joi.number().integer().allow(null).optional()
 })
