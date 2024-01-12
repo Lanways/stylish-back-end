@@ -5,7 +5,7 @@
   "main": "app.ts",
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
-    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/chai": "^4.3.11",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.17",
@@ -19,7 +19,7 @@
     "@types/sinon-chai": "^3.2.12",
     "@types/supertest": "^2.0.16",
     "@types/swagger-ui-express": "^4.1.6",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "chai": "^4.3.10",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -53,8 +53,12 @@
     "swagger": "tsc && node ./dist/swagger-spec.js && cp src/swagger-output.json dist/swagger-output.json",
     "start": "node dist/app.js",
     "build": "tsc",
-    "migrate-and-seed": "npx sequelize db:migrate && npx sequelize db:seed:all",
-    "undo-seed-and-migrate": "npx sequelize db:seed:undo:all && npx sequelize db:migrate:undo"
+    "migrate": "tsc && npx sequelize db:migrate",
+    "migrateundo": "tsc && npx sequelize db:migrate:undo:all",
+    "seed": "tsc && npx sequelize db:seed:all",
+    "seedundo": "tsc && npx sequelize db:seed:undo:all",
+    "setupdb": "tsc && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "cleardb": "tsc && npx sequelize db:seed:undo:all && npx sequelize db:migrate:undo"
   },
   "keywords": [],
   "author": "",
