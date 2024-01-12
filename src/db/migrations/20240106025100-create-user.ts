@@ -30,8 +30,9 @@ module.exports = {
       address: {
         type: DataTypes.STRING
       },
-      is_Admin: {
-        type: DataTypes.BOOLEAN
+      is_admin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       },
       created_at: {
         allowNull: false,
