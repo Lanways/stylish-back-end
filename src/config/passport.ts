@@ -3,7 +3,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import db from '../db/models'
 import { Request } from 'express'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { callbackType } from '../helpers/Helpers'
 import { UserOutput } from '../db/models/user';
 import { CustomError } from '../middleware/error-handler';

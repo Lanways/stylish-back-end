@@ -4,7 +4,7 @@ import { getOffset, getPagination, Pagination } from "../helpers/pagination-help
 import { callbackType } from "../helpers/Helpers"
 import jwt from 'jsonwebtoken'
 import { CustomError } from "../middleware/error-handler"
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 const userService = {
   signUp: async (name: string, account: string, email: string, password: string, phone: number, address: string, cb: callbackType<UserOutput>) => {
