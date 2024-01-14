@@ -1,5 +1,6 @@
 'use strict';
 import { Model, DataTypes, Sequelize, Optional } from 'sequelize'
+import db from './index';
 
 interface ProductAttributes {
   id: number
@@ -19,8 +20,9 @@ export interface ProductInput extends Optional<ProductAttributes, 'id' | 'create
 export interface ProductOutput extends Required<ProductAttributes> { }
 
 export class Product extends Model<ProductAttributes, ProductInput> implements ProductAttributes {
-  static associate(models: any) {
+  static associate(models: typeof db.Product) {
     Product.belongsTo(models.Category, { foreignKey: 'categoryId' })
+    Product.hasMany(models.CartItem, { foreignKey: 'productId' })
   }
   id!: number
   name!: string
