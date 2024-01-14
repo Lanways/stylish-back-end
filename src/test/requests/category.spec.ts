@@ -5,7 +5,7 @@ import { expect } from 'chai'
 
 describe('# category requests', () => {
 
-  context('POST', () => {
+  context('# POST', () => {
 
     describe('POST /api/category', () => {
       before(async () => {
@@ -33,7 +33,7 @@ describe('# category requests', () => {
 
   })
 
-  context('GET', () => {
+  context('# GET', () => {
 
     describe('GET /api/category', () => {
       let categoryId: string
@@ -64,7 +64,7 @@ describe('# category requests', () => {
     })
   })
 
-  context('PUT', () => {
+  context('# PUT', () => {
     describe('PUT /api/category', () => {
       let categoryId: string
       before(async () => {
@@ -91,7 +91,7 @@ describe('# category requests', () => {
     })
   })
 
-  context('DELETE', () => {
+  context('# DELETE', () => {
     describe('DELETE /api/category', () => {
       let categoryId: string
       before(async () => {
