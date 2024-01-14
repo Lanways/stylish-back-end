@@ -1,4 +1,5 @@
 import { Model, DataTypes, Sequelize, Optional } from 'sequelize'
+import db from './index'
 
 interface CategoryAttributes {
   id: number
@@ -11,7 +12,7 @@ export interface CategoryInput extends Optional<CategoryAttributes, 'id' | 'crea
 export interface CategoryOutput extends Required<CategoryAttributes> { }
 
 export class Category extends Model<CategoryAttributes, CategoryInput> implements CategoryAttributes {
-  static associate(models: any) {
+  static associate(models: typeof db.Category) {
     Category.hasMany(models.Product, { foreignKey: 'categoryId' })
   }
   id!: number

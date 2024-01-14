@@ -7,7 +7,7 @@ export const baseUserSchema = Joi.object({
 })
 
 export const userSchema = baseUserSchema.keys({
-  phone: Joi.number().integer().required(),
+  phone: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(8).max(20).required()
 })

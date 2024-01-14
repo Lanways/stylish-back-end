@@ -2,37 +2,32 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('CartItems', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      name: {
-        type: DataTypes.STRING
-      },
-      account: {
-        type: DataTypes.STRING
-      },
-      email: {
+      cart_id: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Carts',
+          key: 'id'
+        }
       },
-      password: {
+      product_id: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Products',
+          key: 'id'
+        }
       },
-      phone: {
+      quantity: {
         allowNull: false,
-        type: DataTypes.STRING
-      },
-      address: {
-        type: DataTypes.STRING
-      },
-      is_admin: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
+        type: DataTypes.INTEGER
       },
       created_at: {
         allowNull: false,
@@ -42,9 +37,9 @@ module.exports = {
         allowNull: false,
         type: DataTypes.DATE
       }
-    })
+    });
   },
   async down(queryInterface: QueryInterface) {
-    await queryInterface.dropTable('Users')
+    await queryInterface.dropTable('CartItems');
   }
-}
+};

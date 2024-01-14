@@ -1,4 +1,5 @@
 import { DataTypes, Model, Optional, Sequelize } from "sequelize"
+import db from './index'
 
 interface UserAttributes {
   id: number
@@ -6,7 +7,7 @@ interface UserAttributes {
   account?: string
   email: string
   password: string
-  phone: number
+  phone: string
   address?: string
   isAdmin?: boolean
   createdAt: Date
@@ -17,12 +18,15 @@ interface UserInput extends Optional<UserAttributes, 'id' | 'createdAt' | 'updat
 export interface UserOutput extends Required<UserAttributes> { }
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
+  static associate(model: typeof db.User) {
+    User.hasOne(model.Cart, { foreignKey: 'userId' })
+  }
   id!: number
   name?: string
   account?: string
   email!: string
   password!: string
-  phone!: number
+  phone!: string
   address?: string
   isAdmin?: boolean
   createdAt!: Date
@@ -53,7 +57,7 @@ const userInit = (sequelize: Sequelize) => {
     },
     phone: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     },
     address: {
       type: DataTypes.STRING
