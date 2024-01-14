@@ -25,7 +25,7 @@ module.exports = {
       },
       phone: {
         allowNull: false,
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING
       },
       address: {
         type: DataTypes.STRING

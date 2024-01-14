@@ -7,7 +7,7 @@ import { CustomError } from "../middleware/error-handler"
 import bcrypt from 'bcryptjs'
 
 const userService = {
-  signUp: async (name: string, account: string, email: string, password: string, phone: number, address: string, cb: callbackType<UserOutput>) => {
+  signUp: async (name: string, account: string, email: string, password: string, phone: string, address: string, cb: callbackType<UserOutput>) => {
     try {
       const userWithEmail = await db.User.findOne({ where: { email: email } })
       if (userWithEmail) {
