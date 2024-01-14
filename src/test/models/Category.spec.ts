@@ -4,9 +4,10 @@ import db from '../../db/models'
 import { expect } from 'chai'
 import sinonChai from 'sinon-chai'
 import chai from 'chai'
+import { CategoryOutput } from '../../db/models/category'
 chai.use(sinonChai)
 
-describe('Category Model', () => {
+describe('# Category Model', () => {
   const { DataTypes } = Sequelize
   const categoryInit = proxyquire('../../db/models/category', {
     sequelize: Sequelize
@@ -25,6 +26,30 @@ describe('Category Model', () => {
           name: { type: DataTypes.STRING }
         }
       )
+    })
+  })
+
+  context('action', () => {
+    let data: CategoryOutput
+    it('create', async () => {
+      const res = await db.Category.create({
+        name: 'category'
+      })
+      data = res
+    })
+    it('read', async () => {
+      const category = await db.Category.findByPk(data.id)
+      expect(data.id).to.be.equal(category.id)
+    })
+    it('update', async () => {
+      await db.Category.update({}, { where: { id: data.id } })
+      const category = await db.Category.findByPk(data.id)
+      expect(data.updatedAt).to.be.not.equal(category.updatedAt)
+    })
+    it('delete', async () => {
+      await db.Category.destroy({ where: { id: data.id } })
+      const category = await db.User.findByPk(data.id)
+      expect(category).to.be.equal(null)
     })
   })
 })
