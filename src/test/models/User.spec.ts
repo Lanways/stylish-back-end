@@ -7,7 +7,7 @@ import sinonChai from 'sinon-chai'
 chai.use(sinonChai)
 import { UserOutput } from '../../db/models/user'
 
-describe('User Model', () => {
+describe('# User Model', () => {
   const { DataTypes } = Sequelize
   const userInit = proxyquire('../../db/models/user', {
     sequelize: Sequelize
