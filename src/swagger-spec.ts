@@ -236,6 +236,63 @@ const doc = {
       account: 'user1',
       password: "user1",
       address: "台北市"
+    },
+    getCart: {
+      status: "200",
+      message: "OK",
+      data: {
+        id: 2,
+        userId: 3,
+        createdAt: "2024-01-15T15:49:18.758Z",
+        updatedAt: "2024-01-15T15:49:18.758Z",
+        CartItems: [
+          {
+            id: 4,
+            cartId: 2,
+            productId: 2,
+            quantity: 1,
+            createdAt: "2024-01-17T15:37:39.656Z",
+            updatedAt: "2024-01-17T15:37:39.656Z"
+          }
+        ]
+      }
+    },
+    putCartItemBody: {
+      quantity: "5"
+    },
+    putCartItemRes: {
+      status: "200",
+      message: "OK",
+      data: {
+        id: 4,
+        cartId: 2,
+        productId: 2,
+        quantity: 5,
+        createdAt: "2024-01-17T15:37:39.656Z",
+        updatedAt: "2024-01-17T15:53:53.906Z",
+        Cart: {
+          id: 2,
+          userId: 3,
+          createdAt: "2024-01-15T15:49:18.758Z",
+          updatedAt: "2024-01-15T15:49:18.758Z"
+        }
+      }
+    },
+    postCartItemBody: {
+      productId: "2",
+      quantity: "1"
+    },
+    postCartItemRes: {
+      status: "200",
+      message: "OK",
+      data: {
+        id: 4,
+        cartId: 2,
+        productId: 2,
+        quantity: 1,
+        updatedAt: "2024-01-17T15:37:39.656Z",
+        createdAt: "2024-01-17T15:37:39.656Z"
+      }
     }
   }
 };
