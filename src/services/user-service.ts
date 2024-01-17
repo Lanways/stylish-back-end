@@ -39,7 +39,7 @@ const userService = {
     try {
       const userObject = user.toJSON()
       delete userObject.password
-      const token = jwt.sign(userObject, process.env.JWT_SECRECT!, { expiresIn: '2m' })
+      const token = jwt.sign(userObject, process.env.JWT_SECRECT!, { expiresIn: '15m' })
       return cb(null, { userObject, token })
     } catch (error: unknown) {
       if (error instanceof Error) {
