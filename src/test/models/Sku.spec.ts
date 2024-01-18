@@ -9,7 +9,7 @@ import sinon from 'sinon'
 
 describe('# Sku Model', () => {
 
-  const SkuInit = proxyquire('../../db/models/Sku', {
+  const SkuInit = proxyquire('../../db/models/sku', {
     sequelize: Sequelize
   })
   const { DataTypes } = Sequelize
