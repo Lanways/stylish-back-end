@@ -9,8 +9,6 @@ interface ProductAttributes {
   createdAt: Date
   updatedAt: Date
   image: string
-  sizeOptions: string
-  quantity: number
   description: string
   additionalImage: string
   categoryId: string
@@ -23,6 +21,7 @@ export class Product extends Model<ProductAttributes, ProductInput> implements P
   static associate(models: typeof db.Product) {
     Product.belongsTo(models.Category, { foreignKey: 'categoryId' })
     Product.hasMany(models.CartItem, { foreignKey: 'productId' })
+    Product.hasMany(models.Sku,{foreignKey:'productId'})
   }
   id!: number
   name!: string
@@ -30,8 +29,6 @@ export class Product extends Model<ProductAttributes, ProductInput> implements P
   createdAt!: Date
   updatedAt!: Date
   image!: string
-  sizeOptions!: string
-  quantity!: number
   description!: string
   additionalImage!: string
   categoryId!: string
@@ -64,14 +61,6 @@ const productInit = (sequelize: Sequelize) => {
     image: {
       allowNull: false,
       type: DataTypes.STRING
-    },
-    sizeOptions: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    quantity: {
-      allowNull: false,
-      type: DataTypes.INTEGER
     },
     description: {
       allowNull: true,

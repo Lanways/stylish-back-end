@@ -10,6 +10,7 @@ module.exports = {
     )
     const products = []
     for (let i = 0; i < 50; i++) {
+      const clothingImage = faker.image.urlLoremFlickr({ category: 'clothing' })
       const random = Math.floor(Math.random() * categories.length)
       const product = {
         name: faker.animal.lion(),
@@ -17,10 +18,8 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
         image: faker.image.urlLoremFlickr({ category: 'clothing' }),
-        size_options: faker.string.fromCharacters('SML'),
-        quantity: faker.string.numeric(),
         description: faker.lorem.lines(),
-        additional_image: faker.image.urlLoremFlickr({ category: 'clothing' }),
+        additional_image: `${clothingImage}, ${clothingImage}, ${clothingImage}`,
         category_id: categories[random].id
       }
       products.push(product)
