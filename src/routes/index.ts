@@ -5,6 +5,7 @@ import categories from './modules/categories'
 import users from './modules/users'
 import cart from './modules/cart'
 import cartItem from './modules/cartItem'
+import sku from './modules/sku'
 const router = express.Router()
 
 router.use('/api/product', products)
@@ -12,6 +13,7 @@ router.use('/api/category', categories)
 router.use('/api/user', users)
 router.use('/api/cart', cart)
 router.use('/api/cartItem', cartItem)
+router.use('/api/sku', sku)
 router.use('/', apiErrorHandler)
 
 export default router
