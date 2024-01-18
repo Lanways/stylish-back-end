@@ -26,8 +26,6 @@ describe('# product requests', () => {
             name: 'name',
             price: 999,
             image: "http://image",
-            sizeOptions: "S",
-            quantity: 2,
             description: 'description',
             additionalImage: "http://additionalImage",
             categoryId: categoryId
@@ -39,8 +37,6 @@ describe('# product requests', () => {
         product.name.should.equal('name')
         product.price.should.equal('999')
         product.image.should.equal('http://image')
-        product.sizeOptions.should.equal('S')
-        product.quantity.should.equal(2)
         product.description.should.equal('description')
         product.additionalImage.should.equal('http://additionalImage')
       })
@@ -63,8 +59,6 @@ describe('# product requests', () => {
           name: 'name',
           price: 999,
           image: "http://image",
-          sizeOptions: "S",
-          quantity: 2,
           description: 'description',
           additionalImage: "http://additionalImage",
           categoryId: category.id
@@ -110,8 +104,6 @@ describe('# product requests', () => {
           name: 'name',
           price: 999,
           image: "http://image",
-          sizeOptions: "S",
-          quantity: 2,
           additionalImage: "http://additionalImage",
           categoryId: categoryId
         })
@@ -124,8 +116,6 @@ describe('# product requests', () => {
             name: 'putName',
             price: 999,
             image: "http://image",
-            sizeOptions: "S",
-            quantity: 2,
             additionalImage: "http://additionalImage",
             categoryId: categoryId
           })
@@ -159,8 +149,6 @@ describe('# product requests', () => {
           name: 'name',
           price: 999,
           image: "http://image",
-          sizeOptions: "S",
-          quantity: 2,
           description: 'description',
           additionalImage: "http://additionalImage",
           categoryId: category.id
@@ -181,8 +169,6 @@ describe('# product requests', () => {
           name: 'name',
           price: '999',
           image: "http://image",
-          sizeOptions: "S",
-          quantity: 2,
           description: 'description',
           additionalImage: "http://additionalImage"
         })

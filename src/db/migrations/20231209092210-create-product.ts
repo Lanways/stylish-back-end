@@ -31,14 +31,6 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING
       },
-      size_options: {
-        allowNull: false,
-        type: DataTypes.STRING
-      },
-      quantity: {
-        allowNull: false,
-        type: DataTypes.INTEGER
-      },
       description: {
         allowNull: true,
         type: DataTypes.TEXT

@@ -27,8 +27,6 @@ const doc = {
         name: 'Cape Lion',
         price: 999,
         image: "http://123123",
-        sizeOptions: "S",
-        quantity: 2,
         description: "123",
         additionalImage: "http://232323.456",
         categoryId: 2,
@@ -40,8 +38,6 @@ const doc = {
       name: 'Cape Lion',
       price: 999,
       image: "http://123123",
-      sizeOptions: "S",
-      quantity: 2,
       description: "123",
       additionalImage: "http://232323.456",
       categoryId: 2
@@ -56,8 +52,6 @@ const doc = {
         createdAt: "2023-12-14T06:47:26.000Z",
         updatedAt: "2023-12-14T06:47:26.000Z",
         image: "https://loremflickr.com/640/480/clothing?lock=1957181607903232",
-        sizeOptions: "S",
-        quantity: 1,
         description: "Viduo verecundia ambitus convoco aestas.Civis utrimque conturbo.",
         additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424",
         categoryId: 2
@@ -74,8 +68,6 @@ const doc = {
           createdAt: "2023-12-14T06:47:26.000Z",
           updatedAt: "2023-12-14T06:47:26.000Z",
           image: "https://loremflickr.com/640/480/clothing?lock=1957181607903232",
-          sizeOptions: "S",
-          quantity: 1,
           description: "Viduo verecundia ambitus convoco aestas.Civis utrimque conturbo.",
           additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424",
           categoryId: 2
@@ -101,8 +93,6 @@ const doc = {
         createdAt: "2023-12-14T06:47:26.000Z",
         updatedAt: "2023-12-14T06:47:26.000Z",
         image: "https://loremflickr.com/640/480/clothing?lock=1957181607903232",
-        sizeOptions: "S",
-        quantity: 1,
         description: "Viduo verecundia ambitus convoco aestas.",
         additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424",
         categoryId: 2

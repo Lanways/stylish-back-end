@@ -5,8 +5,6 @@ export const productSchema = Joi.object({
   name: Joi.string().min(3).max(50).required(),
   price: Joi.number().min(0).required(),
   image: Joi.string().uri().required(),
-  sizeOptions: Joi.string().valid('S', 'M', 'L').required(),
-  quantity: Joi.number().integer().min(0).required(),
   description: Joi.string().max(200).allow(null).optional(),
   additionalImage: Joi.string().uri().required(),
   categoryId: Joi.number().integer().required()

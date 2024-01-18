@@ -44,7 +44,7 @@ const prodcutServices = {
       }
     }
   },
-  postProduct: async (name: string, price: number, image: string, sizeOptions: string, quantity: number, description: string, additionalImage: string, categoryId: string, cb: callbackType<ProductOutput>) => {
+  postProduct: async (name: string, price: number, image: string, description: string, additionalImage: string, categoryId: string, cb: callbackType<ProductOutput>) => {
     try {
       const product = await db.Product.findOne({
         where: { name }
@@ -58,8 +58,6 @@ const prodcutServices = {
         name,
         price,
         image,
-        sizeOptions,
-        quantity,
         description,
         additionalImage,
         categoryId
@@ -83,7 +81,7 @@ const prodcutServices = {
       }
     }
   },
-  putProduct: async (productId: string, name: string, price: number, image: string, sizeOptions: string, quantity: number, description: string, additionalImage: string, categoryId: string, cb: callbackType<ProductOutput>) => {
+  putProduct: async (productId: string, name: string, price: number, image: string, description: string, additionalImage: string, categoryId: string, cb: callbackType<ProductOutput>) => {
     try {
       const existingProduct = await db.Product.findOne({
         where: {
@@ -102,8 +100,6 @@ const prodcutServices = {
         name,
         price,
         image,
-        sizeOptions,
-        quantity,
         description,
         additionalImage,
         categoryId
