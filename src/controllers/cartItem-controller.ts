@@ -10,9 +10,9 @@ const cartItemController = {
     if (error) {
       return res.status(400).json(ResponseData('400', error.details[0].message, null))
     }
-    const { productId, quantity } = value
+    const { skuId, quantity } = value
     const user = req.user
-    cartItemService.postCartItem(user, productId, quantity, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
+    cartItemService.postCartItem(user, skuId, quantity, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
   },
   putCartItem: (req: Request, res: Response, next: NextFunction) => {
     const user = req.user

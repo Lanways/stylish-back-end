@@ -3,7 +3,6 @@ import { postSkuSchema } from "../schemas/skuSchema"
 import { ResponseData } from "../helpers/Helpers"
 import skuService from "../services/sku-service"
 import { idSchema, paginationSchema } from "../schemas/commonSchema"
-import { da } from "@faker-js/faker"
 
 const skuController = {
   postSku: (req: Request, res: Response, next: NextFunction) => {

@@ -3,7 +3,7 @@ import { callbackType } from "../helpers/Helpers"
 import db from "../db/models"
 import { CustomError } from "../middleware/error-handler"
 const cartItemService = {
-  postCartItem: async (user: typeof db.User, productId: number, quantity: number, cb: callbackType<CartItemOutput>) => {
+  postCartItem: async (user: typeof db.User, skuId: number, quantity: number, cb: callbackType<CartItemOutput>) => {
     try {
       let cart = await db.Cart.findOne({ where: { userId: user.id } })
       if (!cart) {
@@ -12,10 +12,10 @@ const cartItemService = {
         })
         cart = res
       }
-      const productExisting = await db.Product.findByPk(productId)
-      if (!productExisting) return cb(new CustomError('product does not exist', 404))
+      const sku = await db.Sku.findByPk(skuId)
+      if (!sku) return cb(new CustomError('Sku does not exists', 404))
 
-      const existingItem = await db.CartItem.findOne({ where: { cartId: cart.id, productId: productExisting.id } })
+      const existingItem = await db.CartItem.findOne({ where: { cartId: cart.id, skuId: sku.id } })
       if (existingItem) {
         existingItem.quantity += quantity
         await existingItem.save()
@@ -23,8 +23,8 @@ const cartItemService = {
       } else {
         const item = await db.CartItem.create({
           cartId: cart.id,
-          productId: productExisting.id,
-          quantity: quantity
+          skuId: sku.id,
+          quantity
         })
         return cb(null, item)
       }

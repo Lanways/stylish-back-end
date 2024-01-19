@@ -17,11 +17,11 @@ module.exports = {
           key: 'id'
         }
       },
-      product_id: {
+      sku_id: {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
-          model: 'Products',
+          model: 'Skus',
           key: 'id'
         }
       },

@@ -4,7 +4,7 @@ import db from './index'
 interface CartItemAttributes {
   id: number
   cartId: number
-  productId: number
+  skuId: number
   quantity: number
   createdAt: Date
   updatedAt: Date
@@ -16,11 +16,11 @@ export interface CartItemOutput extends Required<CartItemAttributes> { }
 class CartItem extends Model<CartItemAttributes, CartItemInput> implements CartItemAttributes {
   static associate(model: typeof db.CartItem) {
     CartItem.belongsTo(model.Cart, { foreignKey: 'cartId' })
-    CartItem.belongsTo(model.Product, { foreignKey: 'productId' })
+    CartItem.belongsTo(model.Sku, { foreignKey: 'skuId' })
   }
   id!: number
   cartId!: number
-  productId!: number
+  skuId!: number
   quantity!: number
   createdAt!: Date
   updatedAt!: Date
@@ -38,7 +38,7 @@ const cartItemInit = (sequelize: Sequelize) => {
       allowNull: false,
       type: DataTypes.INTEGER
     },
-    productId: {
+    skuId: {
       allowNull: false,
       type: DataTypes.INTEGER
     },
