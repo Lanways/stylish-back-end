@@ -12,6 +12,10 @@ const prodcutServices = {
       const categoryIdExisting = categoryId ? { categoryId: categoryId } : {}
       const products = await db.Product.findAll({
         where: categoryIdExisting,
+        include: [{
+          model: db.Sku,
+          attributes: ['id', 'price', 'skuCode']
+        }],
         limit,
         offset
       })
@@ -31,7 +35,7 @@ const prodcutServices = {
   },
   getProduct: async (productId: string, cb: callbackType<ProductOutput>) => {
     try {
-      const product = await db.Product.findByPk(productId)
+      const product = await db.Product.findByPk(productId, { include: [{ model: db.Sku }] })
       if (!product) {
         return cb(new CustomError('product does not exist', 404))
       }
