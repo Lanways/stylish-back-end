@@ -67,7 +67,8 @@ const skuService = {
   },
   putSku: async (skuId: number, productId: number, price: number, inventoryQuantity: number, color: string, size: string, cb: callbackType<SkuOutput>) => {
     try {
-
+      const product = await db.Product.findByPk(productId)
+      if (!product) return cb(new CustomError('product does not exists', 404))
       const sku = await db.Sku.findByPk(skuId)
       if (!sku) return cb(new CustomError('sku does not exists', 404))
       const skuExisting = await db.Sku.findOne({
