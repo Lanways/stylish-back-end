@@ -15,28 +15,24 @@ describe('# CartItem Model', () => {
   })
 
   let CartItem: typeof db.CartItem
-  let user: typeof db.User
   let cart: typeof db.Cart
-  let category: typeof db.Category
-  let product: typeof db.Product
+  let sku: typeof db.Sku
 
   before(async () => {
     CartItem = cartItemInit.default(sequelize)
-    const userRes = await db.User.create({
+    const user = await db.User.create({
       email: 'user@email.com',
       password: 'password',
       phone: '00000000'
     })
-    user = userRes
     const cartRes = await db.Cart.create({
       userId: user.id
     })
     cart = cartRes
-    const categoryRes = await db.Category.create({
+    const category = await db.Category.create({
       name: 'category'
     })
-    category = categoryRes
-    const productRes = await db.Product.create({
+    const product = await db.Product.create({
       name: 'T-shirt',
       price: 999,
       image: "http://image",
@@ -44,23 +40,24 @@ describe('# CartItem Model', () => {
       quantity: 2,
       description: "kpop style",
       additionalImage: "http://additionalImage",
-      categoryId: categoryRes.id
+      categoryId: category.id
     })
-    product = productRes
+    const skuRes = await db.Sku.create({
+      productId: product.id,
+      skuCode: 'skuCode',
+      price: 1,
+      inventoryQuantity: 1,
+      color: 'black',
+      size: 'S'
+    })
+    sku = skuRes
   })
   after(async () => {
-    if (product) {
-      await db.Product.destroy({ where: { id: product.id } })
-    }
-    if (category) {
-      await db.Category.destroy({ where: { id: category.id } })
-    }
-    if (cart) {
-      await db.Cart.destroy({ where: { id: cart.id } })
-    }
-    if (user) {
-      await db.User.destroy({ where: { id: user.id } })
-    }
+    await db.Sku.destroy({ where: {} })
+    await db.Product.destroy({ where: {} })
+    await db.Category.destroy({ where: {} })
+    await db.Cart.destroy({ where: {} })
+    await db.User.destroy({ where: {} })
     CartItem.init.resetHistory()
   })
   context('properties', () => {
@@ -78,7 +75,7 @@ describe('# CartItem Model', () => {
     it('create', async () => {
       const res = await db.CartItem.create({
         cartId: cart.id,
-        productId: product.id,
+        skuId: sku.id,
         quantity: 1
       })
       data = res
@@ -94,7 +91,7 @@ describe('# CartItem Model', () => {
     })
     it('delete', async () => {
       await db.CartItem.destroy({ where: { id: data.id } })
-      const cartItem = await db.Cart.findByPk(data.id)
+      const cartItem = await db.CartItem.findByPk(data.id)
       expect(cartItem).to.be.equal(null)
     })
   })
