@@ -20,7 +20,6 @@ export interface ProductOutput extends Required<ProductAttributes> { }
 export class Product extends Model<ProductAttributes, ProductInput> implements ProductAttributes {
   static associate(models: typeof db.Product) {
     Product.belongsTo(models.Category, { foreignKey: 'categoryId' })
-    Product.hasMany(models.CartItem, { foreignKey: 'productId' })
     Product.hasMany(models.Sku,{foreignKey:'productId'})
   }
   id!: number
