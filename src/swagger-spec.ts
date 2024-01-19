@@ -54,7 +54,20 @@ const doc = {
         image: "https://loremflickr.com/640/480/clothing?lock=1957181607903232",
         description: "Viduo verecundia ambitus convoco aestas.Civis utrimque conturbo.",
         additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424",
-        categoryId: 2
+        categoryId: 2,
+        Skus: [
+          {
+            id: 82,
+            productId: 250,
+            skuCode: "SKU-250-black-L",
+            price: 294,
+            inventoryQuantity: 8,
+            color: "black",
+            size: "L",
+            createdAt: "2024-01-19T08:15:11.657Z",
+            updatedAt: "2024-01-19T08:15:11.657Z"
+          }
+        ]
       }
     },
     getProducts: {
@@ -70,7 +83,14 @@ const doc = {
           image: "https://loremflickr.com/640/480/clothing?lock=1957181607903232",
           description: "Viduo verecundia ambitus convoco aestas.Civis utrimque conturbo.",
           additionalImage: "https://loremflickr.com/640/480/clothing?lock=122186496999424",
-          categoryId: 2
+          categoryId: 2,
+          Skus: [
+            {
+              id: 84,
+              price: 988,
+              skuCode: "SKU-221-red-L"
+            },
+          ]
         },],
         pagination: {
           pages: [
@@ -239,7 +259,7 @@ const doc = {
           {
             id: 4,
             cartId: 2,
-            productId: 2,
+            skuId: 2,
             quantity: 1,
             createdAt: "2024-01-17T15:37:39.656Z",
             updatedAt: "2024-01-17T15:37:39.656Z"
@@ -256,7 +276,7 @@ const doc = {
       data: {
         id: 4,
         cartId: 2,
-        productId: 2,
+        skuId: 2,
         quantity: 5,
         createdAt: "2024-01-17T15:37:39.656Z",
         updatedAt: "2024-01-17T15:53:53.906Z",
@@ -269,7 +289,7 @@ const doc = {
       }
     },
     postCartItemBody: {
-      productId: "2",
+      skuId: "2",
       quantity: "1"
     },
     postCartItemRes: {
@@ -278,12 +298,53 @@ const doc = {
       data: {
         id: 4,
         cartId: 2,
-        productId: 2,
+        skuId: 2,
         quantity: 1,
         updatedAt: "2024-01-17T15:37:39.656Z",
         createdAt: "2024-01-17T15:37:39.656Z"
       }
-    }
+    },
+    getSku: {
+      status: "200",
+      message: "OK",
+      data: {
+        id: 24,
+        productId: 170,
+        skuCode: "SKU-170-white-S",
+        price: 1,
+        inventoryQuantity: 1,
+        color: "white",
+        size: "S",
+        createdAt: "2024-01-18T20:38:41.329Z",
+        updatedAt: "2024-01-18T20:38:41.329Z"
+      }
+    },
+    skuPutBody: {
+      productId: 170,
+      price: 1,
+      inventoryQuantity: 1,
+      color: "black",
+      size: "L"
+    },
+    getSkus: {
+      status: "200",
+      message: "OK",
+      data: {
+        skus: [
+          {
+            id: 24,
+            productId: 170,
+            skuCode: "SKU-170-white-S",
+            price: 1,
+            inventoryQuantity: 1,
+            color: "white",
+            size: "S",
+            createdAt: "2024-01-18T20:38:41.329Z",
+            updatedAt: "2024-01-18T20:38:41.329Z"
+          }
+        ]
+      }
+    },
   }
 };
 
