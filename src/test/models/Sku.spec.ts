@@ -5,7 +5,6 @@ const { Sequelize, sequelize } = require('sequelize-test-helpers')
 import chai from "chai"
 import sinonChai from "sinon-chai"
 chai.use(sinonChai)
-import sinon from 'sinon'
 
 describe('# Sku Model', () => {
 
@@ -13,22 +12,10 @@ describe('# Sku Model', () => {
     sequelize: Sequelize
   })
   const { DataTypes } = Sequelize
-
   let Sku: typeof db.Sku
-  let Product: typeof db.Product
 
   before(async () => {
     Sku = SkuInit.default(sequelize)
-    sinon.spy(db.Sku, 'belongsTo');
-    const category = await db.Category.create({ name: 'category' })
-    const res = await db.Product.create({
-      name: "product",
-      price: "99",
-      image: "imgae",
-      additionalImage: "additionalImage",
-      categoryId: category.id
-    })
-    Product = res
   })
 
   after(async () => {
@@ -36,30 +23,52 @@ describe('# Sku Model', () => {
     await db.Product.destroy({ where: {} })
     await db.Category.destroy({ where: {} })
     Sku.init.resetHistory()
-    db.Sku.belongsTo.restore()
   })
 
   context('properties', () => {
     it('called Sku.init with the correct parameters', () => {
       expect(Sku.init).to.have.been.calledWithMatch(
         {
-          skuCode: { type: DataTypes.STRING }
+          productId: { allowNull: false, type: DataTypes.INTEGER },
+          skuCode: { allowNull: false, type: DataTypes.STRING },
+          price: { allowNull: false, type: DataTypes.INTEGER },
+          inventoryQuantity: { allowNull: false, type: DataTypes.INTEGER },
+          color: { allowNull: false, type: DataTypes.STRING },
+          size: { allowNull: false, type: DataTypes.STRING }
         }
       )
     })
   })
 
   context('associations', () => {
+    const Product = 'Product'
+    const CartItem = 'CartItem'
     before(() => {
-      db.Sku.associate(db)
+      Sku.associate({ Product })
+      Sku.associate({ CartItem })
+    })
+    it('should have many CartItem', () => {
+      expect(Sku.hasMany).to.have.been.calledWith(CartItem)
     })
     it('should belong to product', () => {
-      expect(db.Sku.belongsTo).to.have.been.calledWith(db.Product)
+      expect(Sku.belongsTo).to.have.been.calledWith(Product)
     })
   })
 
   context('action', () => {
     let data: typeof db.Sku
+    let Product: typeof db.Product
+    before(async () => {
+      const category = await db.Category.create({ name: 'category' })
+      const res = await db.Product.create({
+        name: "product",
+        price: "99",
+        image: "imgae",
+        additionalImage: "additionalImage",
+        categoryId: category.id
+      })
+      Product = res
+    })
     it('create', async () => {
       const res = await db.Sku.create({
         productId: Product.id,

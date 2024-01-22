@@ -5,7 +5,6 @@ import { expect } from 'chai'
 chai.use(sinonChai)
 const { sequelize, Sequelize } = require('sequelize-test-helpers')
 import db from "../../db/models"
-import { ProductOutput } from "../../db/models/product"
 
 describe('# Product Model', () => {
   const { DataTypes } = Sequelize
@@ -14,18 +13,14 @@ describe('# Product Model', () => {
   })
 
   let Product: typeof db.Product
-  let category: typeof db.Category
 
   before(async () => {
     Product = productInit.default(sequelize)
-    const res = await db.Category.create({ name: 'category' })
-    category = res
   })
 
   after(async () => {
-    if (category) {
-      await db.Category.destroy({ where: { id: category.id } })
-    }
+    await db.Product.destroy({ where: {} })
+    await db.Category.destroy({ where: {} })
     Product.init.resetHistory()
   })
 
@@ -33,15 +28,39 @@ describe('# Product Model', () => {
     it('called Product.init with the correct parameters', () => {
       expect(Product.init).to.have.been.calledWithMatch(
         {
-          name: { type: DataTypes.STRING }
+          name: { type: DataTypes.STRING },
+          price: { allowNull: false, type: DataTypes.STRING },
+          image: { allowNull: false, type: DataTypes.STRING },
+          description: { allowNull: true, type: DataTypes.TEXT },
+          additionalImage: { allowNull: false, type: DataTypes.TEXT },
+          categoryId: { allowNull: false, type: DataTypes.INTEGER }
         }
       )
     })
   });
 
-  context('action', () => {
-    let data: ProductOutput
+  context('associations', () => {
+    const Category = 'Category'
+    const Sku = 'Sku'
+    before(() => {
+      Product.associate({ Category })
+      Product.associate({ Sku })
+    })
+    it('should belong to Categories', () => {
+      expect(Product.belongsTo).to.be.have.been.calledWith(Category)
+    })
+    it('should have many Skus', () => {
+      expect(Product.hasMany).to.be.have.been.calledWith(Sku)
+    })
+  })
 
+  context('action', () => {
+    let data: typeof db.Product
+    let category: typeof db.Category
+    before(async () => {
+      const res = await db.Category.create({ name: 'category' })
+      category = res
+    })
     it('create', async () => {
       const product = await db.Product.create({
         name: 'T-shirt',
