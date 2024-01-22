@@ -1,0 +1,17 @@
+{
+  "include": [
+    "src/db/models",
+    "src/controllers",
+    "src/services",
+    "src/routes"
+  ],
+  "reporter": [
+    "text",
+    "html"
+  ],
+  "check-coverage": true,
+  "lines": 10,
+  "statements": 10,
+  "functions": 10,
+  "branches": 10
+}
