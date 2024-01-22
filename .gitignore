@@ -21,3 +21,7 @@ node_modules
 
 #environment variable
 .env
+
+#coverage
+.nyc_output
+coverage

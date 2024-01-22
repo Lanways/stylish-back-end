@@ -28,6 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "mocha": "^10.2.0",
     "mysql2": "^3.6.5",
+    "nyc": "^15.1.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
@@ -58,7 +59,8 @@
     "seed": "tsc && npx sequelize db:seed:all",
     "seedundo": "tsc && npx sequelize db:seed:undo:all",
     "setupdb": "tsc && npx sequelize db:migrate && npx sequelize db:seed:all",
-    "cleardb": "tsc && npx sequelize db:seed:undo:all && npx sequelize db:migrate:undo"
+    "cleardb": "tsc && npx sequelize db:seed:undo:all && npx sequelize db:migrate:undo",
+    "coverage":"nyc npm run test"
   },
   "keywords": [],
   "author": "",
