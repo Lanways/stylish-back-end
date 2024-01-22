@@ -4,7 +4,6 @@ import db from '../../db/models'
 import { expect } from 'chai'
 import sinonChai from 'sinon-chai'
 import chai from 'chai'
-import { CartOutput } from '../../db/models/cart'
 chai.use(sinonChai)
 
 describe('# Cart Model', () => {
@@ -14,21 +13,12 @@ describe('# Cart Model', () => {
   })
 
   let Cart: typeof db.Cart
-  let user: typeof db.User
 
   before(async () => {
     Cart = cartInit.default(sequelize)
-    const res = await db.User.create({
-      email: 'user@email.com',
-      password: 'password',
-      phone: '00000000'
-    })
-    user = res
   })
   after(async () => {
-    if (user) {
-      await db.User.destroy({ where: { id: user.id } })
-    }
+    await db.User.destroy({ where: {} })
     Cart.init.resetHistory()
   })
   context('properties', () => {
@@ -41,8 +31,33 @@ describe('# Cart Model', () => {
     })
   })
 
+  context('associations', () => {
+    const User = 'User'
+    const CartItem = 'CartItem'
+    before(() => {
+      Cart.associate({ User })
+      Cart.associate({ CartItem })
+    })
+    it('should belong to User', () => {
+      expect(Cart.belongsTo).to.have.been.calledWith(User)
+    })
+    it('should have many CartItem', () => {
+      expect(Cart.hasMany).to.have.been.calledWith(CartItem)
+    })
+  })
+
   context('action', () => {
-    let data: CartOutput
+    let data: typeof db.Cart
+    let user: typeof db.User
+
+    before(async () => {
+      const res = await db.User.create({
+        email: 'user@email.com',
+        password: 'password',
+        phone: '00000000'
+      })
+      user = res
+    })
     it('create', async () => {
       const res = await db.Cart.create({
         userId: user.id

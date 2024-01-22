@@ -5,7 +5,6 @@ import chai from 'chai'
 import { expect } from 'chai'
 import sinonChai from 'sinon-chai'
 chai.use(sinonChai)
-import { UserOutput } from '../../db/models/user'
 
 describe('# User Model', () => {
   const { DataTypes } = Sequelize
@@ -13,7 +12,7 @@ describe('# User Model', () => {
     sequelize: Sequelize
   })
 
-  let User: typeof db.User
+  let User: any
 
   before(async () => {
     User = userInit.default(sequelize)
@@ -24,19 +23,33 @@ describe('# User Model', () => {
   context('properties', () => {
     it('called User.init with the correct parameters', () => {
       expect(User.init).to.have.been.calledWithMatch({
-        name: { type: DataTypes.STRING }
+        name: { type: DataTypes.STRING },
+        email: { type: DataTypes.STRING, allowNull: false },
+        password: { type: DataTypes.STRING, allowNull: false },
+        phone: { type: DataTypes.STRING, allowNull: false },
+        address: { type: DataTypes.STRING },
+        isAdmin: { type: DataTypes.BOOLEAN }
       })
     })
-
-
   })
+
+  context('associations', () => {
+    const Cart = 'Cart'
+    before(() => {
+      User.associate({ Cart })
+    })
+    it('should have one Cart', () => {
+      expect(User.hasOne).to.have.been.calledWith(Cart)
+    })
+  })
+
   context('action', () => {
-    let data: UserOutput
+    let data: typeof db.User
     it('create', async () => {
       const res = await db.User.create({
         email: 'mcbluedd@hotmail',
         phone: '0999',
-        password:'password'
+        password: 'password'
       })
       data = res
     })

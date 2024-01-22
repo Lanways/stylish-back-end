@@ -4,7 +4,6 @@ import db from '../../db/models'
 import { expect } from 'chai'
 import sinonChai from 'sinon-chai'
 import chai from 'chai'
-import { CategoryOutput } from '../../db/models/category'
 chai.use(sinonChai)
 
 describe('# Category Model', () => {
@@ -29,8 +28,18 @@ describe('# Category Model', () => {
     })
   })
 
+  context('associations', () => {
+    const Product = 'Product'
+    before(() => {
+      Category.associate({ Product })
+    })
+    it('should have many products', () => {
+      expect(Category.hasMany).to.be.been.calledWith(Product)
+    })
+  })
+
   context('action', () => {
-    let data: CategoryOutput
+    let data: typeof db.category
     it('create', async () => {
       const res = await db.Category.create({
         name: 'category'
