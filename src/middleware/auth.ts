@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import passport from '../config/passport'
 import { UserOutput } from '../db/models/user'
+import helpers from '../helpers/Helpers'
 
 const authenticated = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('jwt', { session: false }, (error: Error | null, user: UserOutput) => {
@@ -11,7 +12,9 @@ const authenticated = (req: Request, res: Response, next: NextFunction) => {
   })(req, res, next)
 }
 const authenticatedAdmin = (req: Request, res: Response, next: NextFunction) => {
-  if (req.user && req.user.isAdmin) return next()
+  if (helpers.getUser(req) && helpers.getUser(req)!.isAdmin) {
+    return next()
+  }
   return res.status(403).json({ status: 'error', message: 'permission denied' })
 }
 

@@ -17,9 +17,9 @@ passport.use(new LocalStrategy(
   async (req: Request, email: string, password: string, cb: callbackType<UserOutput>) => {
     try {
       const user = await db.User.findOne({ where: { email: email } })
-      if (!user) return cb(new CustomError('That account is not registered!', 404))
+      if (!user) return cb(new CustomError('That account is not registered!', 401))
       const isMatch = await bcrypt.compare(password, user.password)
-      if (!isMatch) return cb(new CustomError('Email or Password incorrect.', 404))
+      if (!isMatch) return cb(new CustomError('Email or Password incorrect.', 401))
       return cb(null, user)
     } catch (error) {
       if (error instanceof Error)

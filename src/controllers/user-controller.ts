@@ -3,6 +3,7 @@ import { userSchema, putUserSchema } from "../schemas/userSchema"
 import { idSchema, paginationSchema } from '../schemas/commonSchema'
 import { ResponseData } from "../helpers/Helpers"
 import userService from "../services/user-service"
+import helpers from "../helpers/Helpers"
 
 const userController = {
   signUp: (req: Request, res: Response, next: NextFunction) => {
@@ -43,7 +44,7 @@ const userController = {
       return res.status(400).json(ResponseData('400', bodyValidation.error.details[0].message, null))
     }
     const { id: userId } = paramsVaildation.value
-    if (req.user && req.user.id !== userId) {
+    if (helpers.getUser(req) && helpers.getUser(req)?.id !== userId) {
       return res.status(403).json(ResponseData('403', 'Forbidden', null));
     }
     const { name, account, password, address } = bodyValidation.value
