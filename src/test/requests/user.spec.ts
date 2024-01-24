@@ -10,6 +10,8 @@ import passport from '../../config/passport'
 import sinon from 'sinon'
 import { Request, Response, NextFunction } from "express"
 import helpers from "../../helpers/Helpers"
+import jwt from 'jsonwebtoken'
+import { afterEach } from "mocha"
 
 describe('# user requests', () => {
   context('# POST', () => {
@@ -19,6 +21,13 @@ describe('# user requests', () => {
       before(async () => {
         await db.User.destroy({ where: {} })
       })
+
+      afterEach(function () {
+        if (this.userCreate) {
+          this.userCreate.restore()
+        }
+      })
+
       it('- response successfully', async () => {
         const res = await request(app)
           .post('/api/user/signup')
@@ -30,7 +39,6 @@ describe('# user requests', () => {
           .set('Accept', 'application/json')
           .expect(200)
         userId = res.body.data.id
-        expect(res.status).to.equal(200)
         expect(res.body.data).to.have.not.property('password')
         expect(res.body.data).to.have.property('email', 'user@email.com')
       })
@@ -38,6 +46,51 @@ describe('# user requests', () => {
         const user = await db.User.findByPk(userId)
         user.email.should.equal('user@email.com')
       })
+
+      it('- should handle database errors', function (done) {
+        this.userCreate = sinon.stub(db.User, 'create').throws(new Error('Database error'))
+        request(app)
+          .post('/api/user/signup')
+          .send({
+            email: 'user1@example.com',
+            password: 'password',
+            phone: '0000000001'
+          })
+          .set('Accept', 'application/json')
+          .expect(500)
+          .end(function (err, res) {
+            expect(res.error).to.be.an.instanceOf(Error)
+            expect(res.body.message).to.equal('Database error')
+            return done()
+          })
+      })
+
+      it('- should handle email already exists error', (done) => {
+        request(app)
+          .post('/api/user/signup')
+          .send({ email: 'user@email.com', password: 'password', phone: '0000000000' })
+          .set('Accept', 'application/json')
+          .expect(409)
+          .end(function (err, res) {
+            expect(res.status).to.equal(409);
+            expect(res.body.message).to.equal('email already exists');
+            return done()
+          })
+      })
+
+      it('- should handle phone already exists error', (done) => {
+        request(app)
+          .post('/api/user/signup')
+          .send({ email: 'user1@example.com', password: 'password', phone: '0000000000' })
+          .set('Accept', 'application/json')
+          .expect(409)
+          .end(function (err, res) {
+            expect(res.status).to.equal(409);
+            expect(res.body.message).to.equal('phone already exists')
+            return done()
+          })
+      })
+
       after(async () => {
         await db.User.destroy({ where: {} })
       })
@@ -52,6 +105,13 @@ describe('# user requests', () => {
           phone: '00000000000'
         })
       })
+
+      afterEach(function () {
+        if (this.jwtSign) {
+          this.jwtSign.restore()
+        }
+      })
+
       it('- reponse successfully', async () => {
         const res = await request(app)
           .post('/api/user/signin')
@@ -61,10 +121,27 @@ describe('# user requests', () => {
           })
           .set('Accept', 'application/json')
           .expect(200)
-        expect(res.status).to.equal(200)
         expect(res.body.data).to.have.property('token')
         expect(res.body.data).to.have.property('userObject')
       })
+
+      it('- should handle database errors', function (done) {
+        this.jwtSign = sinon.stub(jwt, 'sign').throws(new Error('JWT Error'))
+        request(app)
+          .post('/api/user/signin')
+          .send({
+            email: 'user@example.com',
+            password: 'password'
+          })
+          .set('Accept', 'application/json')
+          .expect(500)
+          .end(function (err, res) {
+            expect(res.error).to.be.an.instanceOf(Error)
+            expect(res.body.message).to.be.equal('JWT Error')
+            return done()
+          })
+      })
+
       after(async () => {
         await db.User.destroy({ where: {} })
       })
@@ -72,6 +149,7 @@ describe('# user requests', () => {
   })
 
   context('# GET', () => {
+
     describe('GET /api/user', () => {
       before(async function () {
         await db.User.destroy({ where: {} })
@@ -92,6 +170,12 @@ describe('# user requests', () => {
         await db.User.create({ email: 'user2@example.com', password: 'password', phone: '00000000002' })
       })
 
+      afterEach(function () {
+        if (this.findAll) {
+          this.findAll.restore()
+        }
+      })
+
       it('- response successfully', (done) => {
         request(app)
           .get('/api/user')
@@ -106,12 +190,27 @@ describe('# user requests', () => {
             return done()
           })
       })
+
+      it('- should handle database errors', function (done) {
+        this.findAll = sinon.stub(db.User, 'findAll').throws(new Error('Database error'))
+        request(app)
+          .get('/api/user')
+          .set('Accept', 'application/json')
+          .expect(500)
+          .end(function (err, res) {
+            expect(res.error).to.be.an.instanceOf(Error)
+            expect(res.body.message).to.equal('Database error')
+            return done()
+          })
+      })
+
       after(async function () {
         this.authenticateStub.restore()
         this.getUserStub.restore()
         await db.User.destroy({ where: {} })
       })
     })
+
     describe('GET /api/user/:id', () => {
       let userId: number
       before(async function () {
@@ -131,6 +230,13 @@ describe('# user requests', () => {
         ).returns({ id: 1, isAdmin: false })
         userId = rootUser.id
       })
+
+      afterEach(function () {
+        if (this.findByPk) {
+          this.findByPk.restore()
+        }
+      })
+
       it('- response successfully', (done) => {
         request(app)
           .get(`/api/user/${userId}`)
@@ -144,6 +250,31 @@ describe('# user requests', () => {
             return done()
           })
       })
+
+      it('- should handle database errors', (done) => {
+        request(app)
+          .get(`/api/user/${userId - 1}`)
+          .set('Accept', 'application/json')
+          .expect(404)
+          .end(function (err, res) {
+            expect(res.error).to.be.an.instanceOf(Error)
+            expect(res.body.message).to.equal('user does not exist')
+            return done()
+          })
+      })
+
+      it('- should handle user does not exist', function (done) {
+        this.findByPk = sinon.stub(db.User, 'findByPk').throws(new Error('Database error'))
+        request(app)
+          .get(`/api/user/${userId}`)
+          .set('Accept', 'application/json')
+          .expect(500)
+          .end(function (err, res) {
+            expect(res.body.message).to.equal('Database error')
+            return done()
+          })
+      })
+
       after(async function () {
         this.authenticateStub.restore()
         this.getUserStub.restore()
@@ -153,6 +284,7 @@ describe('# user requests', () => {
   })
 
   context('# PUT', () => {
+
     describe('PUT /api/user', () => {
       let userId: number
       before(async function () {
@@ -172,6 +304,13 @@ describe('# user requests', () => {
           helpers, 'getUser'
         ).returns({ id: userId, isAdmin: true })
       })
+
+      afterEach(function () {
+        if (this.findByPk) {
+          this.findByPk.restore()
+        }
+      })
+
       it('- response successfully', (done) => {
         request(app)
           .put(`/api/user/${userId}`)
@@ -193,6 +332,36 @@ describe('# user requests', () => {
       it('- database successfully', async () => {
         const putUser = await db.User.findByPk(userId)
         putUser.name.should.equal('name')
+      })
+
+      it('- should handle database error', function (done) {
+        this.findByPk = sinon.stub(db.User, 'findByPk').throws(new Error('Database error'))
+        request(app)
+          .put(`/api/user/${userId}`)
+          .send({
+            name: 'name',
+            password: 'password'
+          })
+          .set('Accept', 'application/json')
+          .expect(500)
+          .end(function (err, res) {
+            expect(res.error).to.be.an.instanceOf(Error)
+            expect(res.body.message).to.equal('Database error')
+            return done()
+          })
+      })
+
+      it('- should handle user does not exist', async function () {
+        await db.User.destroy({ where: { id: userId } })
+        const res = await request(app)
+          .put(`/api/user/${userId}`)
+          .send({
+            name: 'name',
+            password: 'password'
+          })
+          .set('Accept', 'application/json')
+          .expect(404)
+        expect(res.body.message).to.equal('user does not exist')
       })
 
       after(async function () {
@@ -226,6 +395,12 @@ describe('# user requests', () => {
         userId = user.id
       })
 
+      afterEach(function () {
+        if (this.findByPk) {
+          this.findByPk.restore()
+        }
+      })
+
       it('- response successfully', (done) => {
         request(app)
           .delete(`/api/user/${userId}`)
@@ -242,6 +417,29 @@ describe('# user requests', () => {
       it('- database successfully', async () => {
         const removedUser = await db.User.findByPk(userId)
         expect(removedUser).to.be.null
+      })
+
+      it('- should handle database error', function (done) {
+        this.findByPk = sinon.stub(db.User, 'findByPk').throws(new Error('Database error'))
+        request(app)
+          .delete(`/api/user/${userId}`)
+          .set('Accept', 'application/json')
+          .expect(500)
+          .end(function (err, res) {
+            expect(res.error).to.be.an.instanceOf(Error)
+            expect(res.body.message).to.equal('Database error')
+            return done()
+          })
+      })
+
+      it('- should handle user does not exist', async function () {
+        await db.User.destroy({ where: { id: userId } })
+        const res = await request(app)
+          .delete(`/api/user/${userId}`)
+          .set('Accept', 'application/json')
+          .expect(404)
+        expect(res.error).to.be.an.instanceOf(Error)
+        expect(res.body.message).to.equal('user does not exist')
       })
 
       after(async function () {
