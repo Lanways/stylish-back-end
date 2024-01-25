@@ -7,7 +7,7 @@ const cartService = {
   postCart: async (userId: number, cb: callbackType<CartOutput>) => {
     try {
       const user = await db.User.findByPk(userId)
-      if (!user) return cb(new CustomError('user does not exist', 404))
+      if (!user) return cb(new CustomError('user does not exists', 404))
       const cartExisting = await db.Cart.findOne({ where: { userId: userId } })
       if (cartExisting) {
         return cb(new CustomError('User already has a cart', 400))
