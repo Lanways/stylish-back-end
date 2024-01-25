@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from "express"
 import cartService from "../services/cart-service"
 import { userIdSchema } from "../schemas/commonSchema"
 import { ResponseData } from "../helpers/Helpers"
+import helpers from "../helpers/Helpers"
 
 const cartController = {
   postCart: (req: Request, res: Response, next: NextFunction) => {
-    const { error, value } = userIdSchema.validate(req.user?.id)
+    const { error, value } = userIdSchema.validate(helpers.getUser(req)?.id)
     if (error) {
       return res.status(400).json(ResponseData('400', error.details[0].message, null))
     }
@@ -13,7 +14,7 @@ const cartController = {
     cartService.postCart(userId, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
   },
   getCart: (req: Request, res: Response, next: NextFunction) => {
-    const user = req.user
+    const user = helpers.getUser(req)
     cartService.getCart(user, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
   }
 }
