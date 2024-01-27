@@ -26,7 +26,7 @@ app.use(passport.initialize())
 app.use(router)
 
 app.listen(PORT, () => {
-  console.log(`App is running on http://locahost${PORT}`)
+  console.log(`App is running on http://localhost:${PORT}`)
 })
 
 export default app

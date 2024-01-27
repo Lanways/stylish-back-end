@@ -1,0 +1,25 @@
+# Dependency directories
+node_modules/
+nyc_output/
+
+# Build output
+dist/
+coverage/
+
+# Version control
+.git
+.gitignore
+
+# Environment files
+.env
+
+# Editor directories and files
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+
+# System files
+.DS_Store
+Thumbs.db
