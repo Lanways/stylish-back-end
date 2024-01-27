@@ -2,7 +2,7 @@ import swaggerAutogen from 'swagger-autogen'
 import dotenv from 'dotenv'
 dotenv.config()
 
-const host = `localhost:${process.env.PORT}`
+const host = `localhost:${process.env.PORT || 8000}`
 const doc = {
   info: {
     title: 'Stylish',
