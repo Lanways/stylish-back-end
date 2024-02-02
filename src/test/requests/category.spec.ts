@@ -1,9 +1,12 @@
-import app from "../../app"
+import app, { initApp } from "../../app"
 import db from "../../db/models"
 import request from "supertest"
 import { expect } from 'chai'
 
 describe('# category requests', () => {
+  before(async () => {
+    await initApp()
+  })
 
   context('# POST', () => {
 
