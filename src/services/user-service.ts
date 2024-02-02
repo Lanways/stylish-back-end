@@ -5,6 +5,7 @@ import { callbackType } from "../helpers/Helpers"
 import jwt from 'jsonwebtoken'
 import { CustomError } from "../middleware/error-handler"
 import bcrypt from 'bcryptjs'
+import { secrets } from "../secret-manager"
 
 const userService = {
   signUp: async (name: string, account: string, email: string, password: string, phone: string, address: string, cb: callbackType<UserOutput>) => {
@@ -39,7 +40,13 @@ const userService = {
     try {
       const userObject = user.toJSON()
       delete userObject.password
-      const token = jwt.sign(userObject, process.env.JWT_SECRECT!, { expiresIn: '15m' })
+      let JWT_SECRET: string
+      if (process.env.NODE_ENV === "production") {
+        JWT_SECRET = secrets.JWT_SECRET
+      } else {
+        JWT_SECRET = process.env.JWT_SECRET as string
+      }
+      const token = jwt.sign(userObject, JWT_SECRET, { expiresIn: '15m' })
       return cb(null, { userObject, token })
     } catch (error: unknown) {
       if (error instanceof Error) {

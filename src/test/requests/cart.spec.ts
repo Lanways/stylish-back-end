@@ -4,11 +4,13 @@ import db from "../../db/models"
 import { Request, Response, NextFunction } from "express"
 import helpers from "../../helpers/Helpers"
 import request from 'supertest'
-import app from "../../app"
-import { func } from "joi"
+import app, { initApp } from "../../app"
 import { expect } from "chai"
 
 describe('cart request', () => {
+  before(async () => {
+    await initApp()
+  })
   context('# POST', () => {
     describe('POST /api/cart', () => {
       let userId: number

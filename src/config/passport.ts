@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs'
 import { callbackType } from '../helpers/Helpers'
 import { UserOutput } from '../db/models/user';
 import { CustomError } from '../middleware/error-handler';
+import { secrets } from '../secret-manager';
 
 passport.use(new LocalStrategy(
   {
@@ -28,9 +29,16 @@ passport.use(new LocalStrategy(
   }
 ))
 
+let JWT_SECRET: string
+if (process.env.NODE_ENV === "production") {
+  JWT_SECRET = secrets.JWT_SECRET
+} else {
+  JWT_SECRET = process.env.JWT_SECRET as string
+}
+
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRECT,
+  secretOrKey: JWT_SECRET
 };
 
 passport.use(new JwtStrategy(options, async (jwt_payload, done) => {
