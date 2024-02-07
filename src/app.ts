@@ -4,6 +4,10 @@ import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 import { existsSync } from 'fs'
 import path from 'path'
+import dotenv from 'dotenv'
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config()
+}
 
 let swaggerDoc: any
 const swaggerDocPath = path.join(__dirname, 'swagger-output.json')
@@ -12,7 +16,7 @@ if (existsSync(swaggerDocPath)) {
   swaggerDoc = require(swaggerDocPath)
 }
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 80
 const corsOptions = {
   credentials: true
 }
