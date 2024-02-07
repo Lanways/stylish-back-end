@@ -19,6 +19,15 @@ let sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
   logging: false
 })
 
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Database connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  })
+
 const db: { [key: string]: any } = {}
 
 fs.readdirSync(__dirname)
