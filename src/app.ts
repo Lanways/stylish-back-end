@@ -23,7 +23,9 @@ const corsOptions = {
 
 export async function initApp() {
   try {
-    await getSecrets()
+    if (process.env.NODE_ENV === 'production') {
+      await getSecrets()
+    }
     const router = (await import('./routes')).default
     const passport = (await import('./config/passport')).default
 
