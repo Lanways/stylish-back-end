@@ -29,5 +29,3 @@ export async function getSecrets() {
     throw error
   }
 }
-
-getSecrets()

@@ -1,17 +1,12 @@
-FROM node:20.11.0
-
-ENV NODE_ENV=production
+FROM node:20.11.0-alpine
 
 WORKDIR /src/app
 
 COPY package.json package-lock.json ./
-
-RUN npm install
+RUN npm install -g npm@latest && npm install --production
 
 COPY . .
-
 RUN npm run build
-
 RUN npm run swagger
 
 EXPOSE 3000
