@@ -45,7 +45,10 @@ pipeline {
         }
         stage('Deploy to AWS') {
           when {
-            expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+            allOf {
+              branch 'master'
+              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+            }
           }
           steps {
             script {
