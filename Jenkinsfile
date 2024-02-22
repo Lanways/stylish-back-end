@@ -43,6 +43,16 @@ pipeline {
                 sh 'docker exec stylishContainer npm run test'
             }
         }
+        stage('Deploy to AWS') {
+          when {
+            expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+          }
+          steps {
+            script {
+              sh 'aws deploy create-deployment --application-name Stylish --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name Stylish_Group --github-location repository=Lanways/stylish-back-end,commitId=${GIT_COMMIT}'
+            }
+          }
+        }
     }
     
     post {
