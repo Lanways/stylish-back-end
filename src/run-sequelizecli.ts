@@ -5,7 +5,7 @@ import {
 
 const execSync = require("child_process").execSync;
 const secretName = "stylish-env-variable";
-const client = new SecretsManagerClient();
+const client = new SecretsManagerClient({ region: "ap-northeast-1" });
 const sequelizeCommand = process.argv[2] || "db:migrate"
 
 async function getSecrets() {
