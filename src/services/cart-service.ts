@@ -28,7 +28,15 @@ const cartService = {
         where: { userId: user.id },
         include: [{
           model: db.CartItem,
-          as: 'CartItems'
+          attributes: ['id', 'skuId', 'quantity'],
+          include: [{
+            model: db.Sku,
+            attributes: ['price', 'size', 'color', 'inventoryQuantity'],
+            include: [{
+              model: db.Product,
+              attributes: ['name', 'image']
+            }]
+          }]
         }]
       })
       if (!cart) {
