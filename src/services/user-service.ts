@@ -46,7 +46,7 @@ const userService = {
       } else {
         JWT_SECRET = process.env.JWT_SECRET as string
       }
-      const token = jwt.sign(userObject, JWT_SECRET, { expiresIn: '15m' })
+      const token = jwt.sign(userObject, JWT_SECRET, { expiresIn: '1h' })
       return cb(null, { userObject, token })
     } catch (error: unknown) {
       if (error instanceof Error) {
