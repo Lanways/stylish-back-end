@@ -98,8 +98,12 @@ describe('cart request', () => {
   context('# GET', () => {
     describe('GET /api/cart', () => {
       before(async function () {
+        await db.CartItem.destroy({ where: {} })
+        await db.Sku.destroy({ where: {} })
+        await db.Product.destroy({ where: {} })
         await db.Cart.destroy({ where: {} })
         await db.User.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
         const rootUser = await db.User.create({
           email: 'user@example.com',
           password: 'password',
@@ -111,6 +115,12 @@ describe('cart request', () => {
           }
         })
         this.getUser = sinon.stub(helpers, 'getUser').returns({ id: rootUser.id, isAdmin: false })
+
+        const cart = await db.Cart.create({ userId: rootUser.id })
+        const category = await db.Category.create({ name: 'category' })
+        const product = await db.Product.create({ name: 'product1', image: 'image', additionalImage: 'additionalImage', price: '1', categoryId: category.id })
+        const sku = await db.Sku.create({ productId: product.id, skuCode: 'skuCode', price: '1', inventoryQuantity: '1', color: 'blue', size: 'S' })
+        const cartItem = await db.CartItem.create({ cartId: cart.id, skuId: sku.id, quantity: '1' })
       })
 
       afterEach(function () {
@@ -126,7 +136,26 @@ describe('cart request', () => {
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err)
+            // console.log(res.body.data)
             expect(res.body.data).to.have.property('userId')
+            return done()
+          })
+      })
+
+      it('- should include CartItems and Sku and Product', function (done) {
+        request(app)
+          .get('/api/cart')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err)
+            expect(res.body.data.CartItems[0]).to.have.property('id')
+            expect(res.body.data.CartItems[0].Sku).to.have.property('price')
+            expect(res.body.data.CartItems[0].Sku).to.have.property('size')
+            expect(res.body.data.CartItems[0].Sku).to.have.property('color')
+            expect(res.body.data.CartItems[0].Sku).to.have.property('inventoryQuantity')
+            expect(res.body.data.CartItems[0].Sku.Product).to.have.property('name')
+            expect(res.body.data.CartItems[0].Sku.Product).to.have.property('image')
             return done()
           })
       })
@@ -148,8 +177,12 @@ describe('cart request', () => {
       after(async function () {
         this.authenticate.restore()
         this.getUser.restore()
+        await db.CartItem.destroy({ where: {} })
+        await db.Sku.destroy({ where: {} })
+        await db.Product.destroy({ where: {} })
         await db.Cart.destroy({ where: {} })
         await db.User.destroy({ where: {} })
+        await db.Category.destroy({ where: {} })
       })
     })
   })
