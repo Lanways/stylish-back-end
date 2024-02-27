@@ -43,11 +43,28 @@ pipeline {
                 sh 'docker exec stylishContainer npm run test'
             }
         }
+        stage('Check for Changes') {
+          when {
+            branch 'master'
+          }
+          steps {
+            script {
+                def Changes = sh(script:"git diff --name-only ${env.GIT_PREVIOUS_COMMIT} ${env.GIT_COMMIT}",returnStdout: true).trim()
+                if (Changes) {
+                  env.HAS_CHANGES = 'true'
+                } else {
+                  env.HAS_CHANGES = 'false'
+                }
+                echo "Checked for changes: ${env.HAS_CHANGES}"
+            }
+          }
+        }
         stage('Deploy to AWS') {
           when {
             allOf {
               branch 'master'
               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+              expression { env.HAS_CHANGES == 'true' }
             }
           }
           steps {
