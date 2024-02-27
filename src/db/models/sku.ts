@@ -20,6 +20,7 @@ export class Sku extends Model<SkuAttributes, SkuInput> implements SkuAttributes
   static associate(models: typeof db.Sku) {
     Sku.belongsTo(models.Product, { foreignKey: 'productId' })
     Sku.hasMany(models.CartItem, { foreignKey: 'skuId' })
+    Sku.hasOne(models.OrderItem, { foreignKey: 'skuId' })
   }
   id!: number
   productId!: number
