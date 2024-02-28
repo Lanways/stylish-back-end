@@ -7,6 +7,7 @@ import cart from './modules/cart'
 import cartItem from './modules/cartItem'
 import sku from './modules/sku'
 import shippingFee from './modules/shippingFee'
+import order from './modules/order'
 const router = express.Router()
 
 router.use('/api/product', products)
@@ -16,6 +17,7 @@ router.use('/api/cart', cart)
 router.use('/api/cartItem', cartItem)
 router.use('/api/sku', sku)
 router.use('/api/shippingFee', shippingFee)
+router.use('/api/order', order)
 router.use('/', apiErrorHandler)
 
 export default router
