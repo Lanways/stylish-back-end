@@ -345,6 +345,23 @@ const doc = {
         ]
       }
     },
+    getShippingFee: {
+      status: "200",
+      message: "OK",
+      data: {
+        skus: [
+          {
+            id: 1,
+            country: "台灣",
+            paymentMethod: "信用卡",
+            shippingMethod: "超商取貨",
+            fee: "70",
+            createdAt: "2024-02-27T17:30:12.701Z",
+            updatedAt: "2024-02-27T17:30:12.701Z"
+          }
+        ]
+      }
+    },
   }
 };
 
