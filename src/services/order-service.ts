@@ -107,7 +107,7 @@ const orderService = {
         include: [
           { model: db.Payment, attributes: ['id', 'status'] },
           { model: db.Shipping, attributes: ['id'] },
-          { model: db.OrderItem, attributes: ['id', 'skuId','quantity'] }
+          { model: db.OrderItem, attributes: ['id', 'skuId', 'quantity'] }
         ]
       })
       if (orders.length === 0) {
