@@ -362,6 +362,79 @@ const doc = {
         ]
       }
     },
+    postOrderBody: {
+      order: {
+        totalPrice: 150.00,
+        status: "Pending"
+      },
+      shipping: {
+        recipient: "John Doe",
+        address: "123 Main St, Anytown, AT 12345",
+        telephone: "123-456-7890"
+      },
+      payment: {
+        amount: 150.00,
+        provider: "Credit Card",
+        status: "Pending"
+      },
+      orderItems: [
+        {
+          skuId: 1,
+          quantity: 2
+        },
+        {
+          skuId: 2,
+          quantity: 1
+        }
+      ],
+      shippingFeeId: 789
+    },
+    postOrderRes: {
+      status: "200",
+      message: "OK",
+      data: {
+        id: 20,
+        totalPrice: "150",
+        status: "Pending",
+        userId: 1,
+        shippingFeeId: 789,
+        updatedAt: "2024-03-01T12:45:32.568Z",
+        createdAt: "2024-03-01T12:45:32.568Z"
+      }
+    },
+    getOrders: {
+      status: "200",
+      message: "Ok",
+      data: [
+        {
+          id: 9,
+          userId: 2,
+          shippingFeeId: 789,
+          totalPrice: "150",
+          status: "Pending",
+          createdAt: "2024-02-28T16:05:38.200Z",
+          updatedAt: "2024-02-28T16:05:38.200Z",
+          Payment: {
+            id: 9,
+            status: "Pending"
+          },
+          Shipping: {
+            id: 9
+          },
+          OrderItems: [
+            {
+              id: 18,
+              skuId: 2,
+              quantity: 1
+            },
+            {
+              id: 17,
+              skuId: 1,
+              quantity: 2
+            }
+          ]
+        },]
+    }
   }
 };
 
