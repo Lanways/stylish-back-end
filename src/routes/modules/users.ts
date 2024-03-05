@@ -7,6 +7,10 @@ const router = express.Router()
 
 router.post('/signup', userController.signUp)
 router.post('/signin', passport.authenticate('local', { session: false }),
+    (req, res, next) => {
+        req.isLocalStrategy = true
+        next()
+    },
     userController.signIn)
 router.get('/:id', userController.getUser)
 router.put('/:id', authenticated, userController.putUser)

@@ -4,3 +4,9 @@ declare namespace Express {
     isAdmin: boolean
   }
 }
+
+declare namespace Express {
+  interface Request {
+    isLocalStrategy: boolean
+  }
+}

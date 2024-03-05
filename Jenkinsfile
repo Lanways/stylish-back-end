@@ -32,7 +32,7 @@ pipeline {
         stage('Start App Container And Db Migrate') {
           steps {
             script {
-              sh 'docker run -it -d -p 3000:3000 -e NODE_ENV=test -e DB_USER=postgres -e DB_PASS=password -e DB_NAME_TEST=stylish_test -e DB_HOST=postgres -e JWT_SECRET=lan --name stylishContainer --network stylish_network stylish:v1 /bin/sh'
+              sh 'docker run -it -d -p 3000:3000 --env-file /var/jenkins_home/.env --name stylishContainer --network stylish_network stylish:v1 /bin/sh'
               sh 'docker ps | grep stylishContainer'
               sh 'docker exec stylishContainer npx sequelize db:migrate'
             }
