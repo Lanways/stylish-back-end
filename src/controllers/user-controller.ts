@@ -15,8 +15,18 @@ const userController = {
     userService.signUp(name, account, email, password, phone, address, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
   },
   signIn: (req: Request, res: Response, next: NextFunction) => {
-    const user = req.user
-    userService.signIn(user, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
+    const user = helpers.getUser(req)
+
+    userService.signIn(user, (error, data) => {
+      if (error) {
+        return next(error)
+      }
+      if (!req.isLocalStrategy) {
+        const token = data?.token
+        return res.render('index', { token })
+      }
+      res.status(200).json(ResponseData('200', 'OK', data))
+    })
   },
   getUser: (req: Request, res: Response, next: NextFunction) => {
     const { error, value } = idSchema.validate(req.params)
