@@ -12,6 +12,7 @@ router.post('/signin', passport.authenticate('local', { session: false }),
         next()
     },
     userController.signIn)
+router.get('/token', authenticated, userController.getToken)
 router.get('/:id', userController.getUser)
 router.put('/:id', authenticated, userController.putUser)
 router.delete('/:id', authenticated, authenticatedAdmin, userController.removeUser)
@@ -147,6 +148,23 @@ router.get('/', authenticated, authenticatedAdmin, userController.getUsers)
 /* #swagger.responses[200] = { schema: { $ref: '#/definitions/getUser' } } */
 /* #swagger.responses[400] = { description: "The request data is malformed or missing necessary information" } */
 // #swagger.responses[404] = { description: "user does not exists" }
+// #swagger.end
+
+// #swagger.start
+/*
+    #swagger.path = '/api/user/token'
+    #swagger.tags = ['User']
+    #swagger.method = 'get'
+    #swagger.description = 'oauth登入'
+    #swagger.produces = ['application/json']
+*/
+
+/* #swagger.security = [{
+            "apiKeyAuth": []
+    }] */
+
+/* #swagger.responses[200] = { schema: { $ref: '#/definitions/getTokenRes' } } */
+/* #swagger.responses[400] = { description: "token does not exist" } */
 // #swagger.end
 
 export default router
