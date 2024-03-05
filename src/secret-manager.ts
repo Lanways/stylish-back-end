@@ -49,7 +49,6 @@ export async function getGoogleAuthSecrets() {
       for (const key in res) {
         googleAuthSecrets[key] = res[key]
       }
-      console.log('googleAuthSecrets', googleAuthSecrets)
     }
   } catch (error) {
     console.log('secretManagerError', error)
