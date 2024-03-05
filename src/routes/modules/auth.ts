@@ -16,3 +16,23 @@ router.get('/google/callback',
 )
 
 export default router
+
+// #swagger.start
+/*
+    #swagger.path = '/api/auth/google'
+    #swagger.tags = ['Auth']
+    #swagger.method = 'get'
+    #swagger.description = 'Google驗證.'
+    #swagger.produces = ['application/json']
+*/
+// #swagger.end
+
+// #swagger.start
+/*
+    #swagger.path = '/api/auth/google/callback'
+    #swagger.tags = ['Auth']
+    #swagger.method = 'get'
+    #swagger.description = 'for Google callback.'
+    #swagger.produces = ['application/json']
+*/
+// #swagger.end
