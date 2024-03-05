@@ -16,14 +16,18 @@ const userController = {
   },
   signIn: (req: Request, res: Response, next: NextFunction) => {
     const user = helpers.getUser(req)
-
     userService.signIn(user, (error, data) => {
       if (error) {
         return next(error)
       }
       if (!req.isLocalStrategy) {
-        const token = data?.token
-        return res.render('index', { token })
+        res.cookie('token', data?.token, {
+          secure: true,
+          httpOnly: true,
+          sameSite: 'none',
+          expires: new Date(Date.now() + 60 * 60 * 1000)
+        })
+        return res.redirect('https://stylish-test.netlify.app?isAuthenticated=true')
       }
       res.status(200).json(ResponseData('200', 'OK', data))
     })
@@ -67,6 +71,15 @@ const userController = {
     }
     const { id: userId } = value
     userService.removeUser(userId, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data)))
+  },
+  getToken: (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const token = req.cookies.token
+      if (!token) return res.status(400).json(ResponseData('400', 'token does not exist', null))
+      return res.status(200).json(ResponseData('200', 'OK', token))
+    } catch (error) {
+      next(error)
+    }
   }
 }
 

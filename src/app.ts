@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express'
 import { existsSync } from 'fs'
 import path from 'path'
 import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser'
 if (process.env.NODE_ENV !== "production") {
   dotenv.config()
 }
@@ -18,6 +19,7 @@ if (existsSync(swaggerDocPath)) {
 const app = express()
 const PORT = process.env.PORT || 80
 const corsOptions = {
+  origin: ['https://stylish-test.netlify.app', 'http://localhost:3000'],
   credentials: true
 }
 
@@ -27,11 +29,9 @@ export async function initApp() {
       await getSecrets()
       await getGoogleAuthSecrets()
     }
+    app.use(cookieParser())
     const router = (await import('./routes')).default
     const passport = (await import('./config/passport')).default
-
-    app.set('view engine', 'ejs')
-    app.set('views', path.join(__dirname, '..', 'views'))
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }))
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))

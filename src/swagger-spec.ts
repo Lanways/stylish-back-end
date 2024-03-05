@@ -434,6 +434,11 @@ const doc = {
             }
           ]
         },]
+    },
+    getTokenRes: {
+      status: "200",
+      message: "OK",
+      data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InJvb3QiLCJhY2NvdW50IjpudWxsLCJlbWFpbCI6InJvb3RAZ21haWwuY29tIiwicGhvbmUiOiIwMDAwMDAwMCIsImFkZHJlc3MiOm51bGwsImlzQW"
     }
   }
 };

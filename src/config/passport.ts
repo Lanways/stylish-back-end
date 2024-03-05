@@ -38,10 +38,19 @@ if (env !== "production" && (!process.env.JWT_SECRET)) {
   throw new CustomError('Can not found JWT Secret', 404)
 }
 
+const customExtractor = function (req: Request) {
+  let token = null
+  token = ExtractJwt.fromAuthHeaderAsBearerToken()(req)
+  if (!token && req.cookies) {
+    token = req.cookies['token']
+  }
+  return token
+}
+
 const options = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: customExtractor,
   secretOrKey: JWT_SECRET
-};
+}
 
 passport.use(new JwtStrategy(options, async (jwt_payload, done) => {
   try {
