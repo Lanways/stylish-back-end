@@ -10,8 +10,16 @@
 ![](https://img.shields.io/badge/AWS%20EC2-yellow)
 
 TypeScript + Express打造擁有MVC架構的API Server
-並透過Jenkins、GitHub WebHook及AWS CodeDeploy來達成CI/CD Pipeline。
+並透過Jenkins、GitHub WebHook及AWS CodeDeploy來達成CI/CD Pipeline
 * [Live Demo of Stylish](https://stylish-test.netlify.app/)
+  * 使用者註冊與登入：允許使用者創建帳戶和登入
+  * 商品瀏覽：展示商品列表，包括商品圖片、描述、價格等
+  * 商品搜索與篩選：提供搜索框，並允許按類別、價格等篩選商品
+  * 加入購物車：使用者可以選擇商品並將其加入購物車
+  * 購物車管理：查看、編輯或刪除購物車中的商品
+  * 結帳流程：提供一個結帳界面，包括填寫送貨地址、選擇付款方式
+  * 訂單管理：生成訂單，允許使用者查看和跟蹤訂單狀態
+
 ![](https://i.imgur.com/DTOPG9E.png)
 ## 測試帳號
 | Account   | Password |
@@ -28,7 +36,7 @@ TypeScript + Express打造擁有MVC架構的API Server
 ```
 git clone https://github.com/Lanways/stylish-back-end.git
 ```
-2. 依照[.env.example](https://github.com/Lanways/stylish/blob/master/.env.example)環境變數建立.env檔案。
+2. 依照[.env.example](https://github.com/Lanways/stylish-back-end/blob/master/.env.example)環境變數建立.env檔案。
 ```
 touch .env
 ```
@@ -97,7 +105,7 @@ npm run test
 npm run coverage
 ```
 ## CI/CD
-![](https://i.imgur.com/J3zo29Y.png)
+![](https://i.imgur.com/MHSTYXB.png)
 * 注意事項
   * Jinkins建立Item步驟中需要加入Credentials，GitHub才能取得Status來設置checks to pass before merging
   * 透過Docker啟動Jenkins會使用到Dood需掛載套接字
@@ -108,7 +116,7 @@ npm run coverage
 ## 路由列表
 
 請參考API文件說明以獲得詳細的路由清單、必要參數和回傳格式。
-* [SWAGGER](http://localhost:3000/api-docs)
+* [Swagger](http://localhost:3000/api-docs)
 
 建議使用API測試工具進行測試。
 
