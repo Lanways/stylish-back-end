@@ -2,8 +2,88 @@ import db from "../db/models";
 import { OrderOutput } from "../db/models/order"
 import { callbackType } from "../helpers/Helpers"
 import { CustomError } from "../middleware/error-handler";
+import { createSesEncrypt, createShaEncrypt, createSesDecrypt, genDataChain } from "../helpers/payment-helpers"
+
+const orders: { [key: number | string]: any } = {}
+const {
+  MerchantID,
+  Version,
+  PayGateWay,
+  NotifyUrl,
+  ReturnUrl,
+} = process.env;
 
 const orderService = {
+  orderEncryption: async (data: any, cb: callbackType<any>) => {
+    try {
+      const TimeStamp: number = Math.round(new Date().getTime() / 1000);
+      const order = {
+        ...data,
+        ItemDesc: TimeStamp,
+        TimeStamp,
+        Amt: parseInt(data.order.totalPrice),
+        MerchantOrderNo: TimeStamp,
+      }
+      const provider = data.payment.provider
+      if (provider === '貨到付款') {
+        order.WEBATM = 1
+      } else if (provider === '信用卡') {
+        order.CREDIT = 1
+      }
+      const aesEncrypt = createSesEncrypt(order);
+      const shaEncrypt = createShaEncrypt(aesEncrypt);
+      order.aesEncrypt = aesEncrypt;
+      order.shaEncrypt = shaEncrypt;
+      orders[TimeStamp] = order;
+      return cb(null, order)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return cb(error)
+      }
+    }
+  },
+  checkOrder: async (id: string, cb: callbackType<any>) => {
+    const order = orders[id];
+    if (!order) {
+      return cb(new CustomError('Order Not Find', 404))
+    }
+    const data: any = {
+      PayGateWay,
+      Version,
+      order,
+      MerchantID,
+      NotifyUrl,
+      ReturnUrl,
+      CREDIT: order.CREDIT,
+      WEBATM: order.WEBATM
+    }
+    return cb(null, data)
+  },
+  PaymentCallback: async (response: any, cb: callbackType<any>) => {
+    try {
+      //解密
+      const data = createSesDecrypt(response.TradeInfo);
+      // 取得交易內容，並查詢本地端資料庫是否有相符的訂單
+      console.log(orders[data?.Result?.MerchantOrderNo]);
+      if (!orders[data?.Result?.MerchantOrderNo]) {
+        console.log('找不到訂單');
+        return cb(null)
+      }
+      // 使用 HASH 再次 SHA 加密字串，確保比對一致（確保不正確的請求觸發交易成功）
+      const thisShaEncrypt = createShaEncrypt(response.TradeInfo);
+      if (!thisShaEncrypt === response.TradeSha) {
+        console.log('付款失敗：TradeSha 不一致');
+        return cb(null)
+      }
+      // 交易完成，將成功資訊儲存於資料庫
+      console.log('付款完成，訂單：', orders[data?.Result?.MerchantOrderNo]);
+      return cb(null)
+    } catch (error: unknown) {
+      if (error instanceof Error)
+        cb(error)
+    }
+  },
+
   postOrder: async (
     user: typeof db.User,
     order: {
