@@ -15,4 +15,4 @@ rm -rf /home/ec2-user/stylish-back-end
 
 
 echo "Installing/updating dependencies"
-sudo yum update -y
+sudo yum update -y --skip-broken
