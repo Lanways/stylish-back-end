@@ -19,7 +19,7 @@ if (existsSync(swaggerDocPath)) {
 const app = express()
 const PORT = process.env.PORT || 80
 const corsOptions = {
-  origin: ['https://stylish-test.netlify.app', 'http://localhost:3000'],
+  origin: ['https://stylish-test.netlify.app', 'https://app.ezstylish.com'],
   credentials: true
 }
 
