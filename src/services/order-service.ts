@@ -2,7 +2,7 @@ import db from "../db/models";
 import { OrderOutput } from "../db/models/order"
 import { callbackType } from "../helpers/Helpers"
 import { CustomError } from "../middleware/error-handler";
-import { createSesEncrypt, createShaEncrypt, createSesDecrypt, genDataChain } from "../helpers/payment-helpers"
+import { createSesEncrypt, createShaEncrypt, createSesDecrypt } from "../helpers/payment-helpers"
 
 const orders: { [key: number | string]: any } = {}
 const {
@@ -11,6 +11,7 @@ const {
   PayGateWay,
   NotifyUrl,
   ReturnUrl,
+  ClientBackURL
 } = process.env;
 
 const orderService = {
@@ -43,7 +44,7 @@ const orderService = {
     }
   },
   checkOrder: async (id: string, cb: callbackType<any>) => {
-    const order = orders[id];
+    const order = orders[id]
     if (!order) {
       return cb(new CustomError('Order Not Find', 404))
     }
@@ -54,6 +55,7 @@ const orderService = {
       MerchantID,
       NotifyUrl,
       ReturnUrl,
+      ClientBackURL,
       CREDIT: order.CREDIT,
       WEBATM: order.WEBATM
     }
@@ -64,7 +66,6 @@ const orderService = {
       //解密
       const data = createSesDecrypt(response.TradeInfo);
       // 取得交易內容，並查詢本地端資料庫是否有相符的訂單
-      console.log(orders[data?.Result?.MerchantOrderNo]);
       if (!orders[data?.Result?.MerchantOrderNo]) {
         console.log('找不到訂單');
         return cb(null)

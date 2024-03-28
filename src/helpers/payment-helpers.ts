@@ -6,6 +6,7 @@ const MerchantID = process.env.MerchantID as String
 const Version = process.env.Version as string
 const ReturnUrl = process.env.ReturnUrl as string
 const NotifyUrl = process.env.NotifyUrl as string
+const ClientBackURL = process.env.ClientBackURL as string
 const RespondType = 'JSON';
 
 export function createSesEncrypt(TradeInfo: any) {
@@ -35,9 +36,9 @@ export function createSesDecrypt(TradeInfo: any) {
 export function genDataChain(order: any) {
   return `MerchantID=${MerchantID}&TimeStamp=${order.TimeStamp
     }&Version=${Version}&RespondType=${RespondType}&MerchantOrderNo=${order.MerchantOrderNo
-    }&Amt=${order.Amt}&CREDIT=${order.CREDIT}&WEBATM=${order.WEBATM}&NotifyURL=${encodeURIComponent(
-      NotifyUrl,
-    )}&ReturnURL=${encodeURIComponent(ReturnUrl)}&ItemDesc=${encodeURIComponent(
-      order.ItemDesc,
-    )}&Email=${encodeURIComponent(order.email)}`;
+    }&Amt=${order.Amt}&NotifyURL=${encodeURIComponent(
+      NotifyUrl
+    )}&ItemDesc=${encodeURIComponent(
+      order.ItemDesc
+    )}&Email=${encodeURIComponent(order.email)}&CREDIT=${order.CREDIT}&WEBATM=${order.WEBATM}&ClientBackURL=${ClientBackURL}`;
 }

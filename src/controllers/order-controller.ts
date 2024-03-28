@@ -12,7 +12,6 @@ const orderController = {
   },
   checkOrder: (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    console.log(id)
     orderService.checkOrder(id, (error, data) => error ? next(error) : res.status(200).json(ResponseData('200', 'OK', data))
     )
   },
