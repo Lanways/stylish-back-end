@@ -27,7 +27,7 @@ const userController = {
           sameSite: 'none',
           expires: new Date(Date.now() + 60 * 60 * 1000)
         })
-        return res.redirect('https://stylish-test.netlify.app?isAuthenticated=true')
+        return res.redirect('https://app.ezstylish.com?isAuthenticated=true')
       }
       res.status(200).json(ResponseData('200', 'OK', data))
     })
