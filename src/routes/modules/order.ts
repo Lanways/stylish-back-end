@@ -3,10 +3,9 @@ import orderController from '../../controllers/order-controller'
 import { authenticated, authenticatedAdmin } from '../../middleware/auth'
 const router = express.Router()
 
-router.get('/check/:id', orderController.checkOrder)
-router.post('/encryption', orderController.orderEncryption)
+router.get('/check/:id', authenticated, orderController.checkOrder)
+router.post('/encryption', authenticated, orderController.orderEncryption)
 router.post('/newebpay_notify', orderController.PaymentCallback)
-router.post('/', authenticated, orderController.postOrder)
 router.get('/', authenticated, authenticatedAdmin, orderController.getOrders)
 
 export default router
