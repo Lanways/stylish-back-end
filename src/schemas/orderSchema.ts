@@ -19,5 +19,6 @@ export const orderSchema = Joi.object({
     skuId: Joi.number().integer().required(),
     quantity: Joi.number().integer().min(1).required()
   })).required(),
-  shippingFeeId: Joi.number().integer().optional()
+  shippingFeeId: Joi.number().integer().optional(),
+  email: Joi.string().email().required()
 })
