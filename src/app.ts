@@ -6,6 +6,7 @@ import { existsSync } from 'fs'
 import path from 'path'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
+import logger from 'morgan'
 if (process.env.NODE_ENV !== "production") {
   dotenv.config()
 }
@@ -18,8 +19,11 @@ if (existsSync(swaggerDocPath)) {
 }
 const app = express()
 const PORT = process.env.PORT || 80
+const origin = process.env.NODE_ENV === 'development'
+  ? ['http://localhost:8000']
+  : ['https://stylish-test.netlify.app', 'https://app.ezstylish.com']
 const corsOptions = {
-  origin: ['https://stylish-test.netlify.app', 'https://app.ezstylish.com'],
+  origin: origin,
   credentials: true
 }
 
@@ -32,7 +36,8 @@ export async function initApp() {
     app.use(cookieParser())
     const router = (await import('./routes')).default
     const passport = (await import('./config/passport')).default
-    app.use(express.json());
+    // app.use(logger('dev'))
+    app.use(express.json())
     app.use(express.urlencoded({ extended: false }))
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
     app.use(cors(corsOptions))
