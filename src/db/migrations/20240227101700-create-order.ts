@@ -24,7 +24,23 @@ module.exports = {
       status: {
         allowNull: false,
         type: DataTypes.ENUM,
-        values: ['Pending', 'Shipped', 'Delivered', 'Cancelled']
+        values: ['Pending', 'Processing', 'Delivered', 'Cancelled']
+      },
+      provider: {
+        allowNull: false,
+        type: DataTypes.STRING
+      },
+      aes_encrypt: {
+        allowNull: true,
+        type: DataTypes.TEXT
+      },
+      sha_encrypt: {
+        allowNull: true,
+        type: DataTypes.TEXT
+      },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING
       },
       created_at: {
         allowNull: false,
@@ -38,5 +54,6 @@ module.exports = {
   },
   async down(queryInterface: QueryInterface) {
     await queryInterface.dropTable('Orders')
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS public."enum_Orders_status"`)
   }
 }

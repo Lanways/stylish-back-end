@@ -11,7 +11,6 @@ import sinon from 'sinon'
 import { Request, Response, NextFunction } from "express"
 import helpers from "../../helpers/Helpers"
 import jwt from 'jsonwebtoken'
-import { afterEach } from "mocha"
 
 describe('# user requests', () => {
   context('# POST', () => {

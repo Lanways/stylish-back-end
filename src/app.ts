@@ -18,8 +18,11 @@ if (existsSync(swaggerDocPath)) {
 }
 const app = express()
 const PORT = process.env.PORT || 80
+const origin = process.env.NODE_ENV === 'development'
+  ? ['http://localhost:8000']
+  : ['https://stylish-test.netlify.app', 'https://app.ezstylish.com']
 const corsOptions = {
-  origin: ['https://stylish-test.netlify.app', 'https://app.ezstylish.com'],
+  origin: origin,
   credentials: true
 }
 
@@ -32,7 +35,7 @@ export async function initApp() {
     app.use(cookieParser())
     const router = (await import('./routes')).default
     const passport = (await import('./config/passport')).default
-    app.use(express.json());
+    app.use(express.json())
     app.use(express.urlencoded({ extended: false }))
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
     app.use(cors(corsOptions))

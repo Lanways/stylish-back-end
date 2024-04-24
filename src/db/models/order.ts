@@ -7,6 +7,10 @@ interface OrderAttributes {
   shippingFeeId: number
   totalPrice: number
   status: string
+  provider: string
+  aesEncrypt?: string
+  shaEncrypt?: string
+  email: string
   createdAt: Date
   updatedAt: Date
 }
@@ -27,6 +31,10 @@ class Order extends Model<OrderAttributes, OrderInput> implements OrderAttribute
   shippingFeeId!: number
   totalPrice!: number
   status!: string
+  provider!: string
+  aesEncrypt?: string
+  shaEncrypt?: string
+  email!: string
   createdAt!: Date
   updatedAt!: Date
 }
@@ -54,7 +62,23 @@ const orderInit = (sequelize: Sequelize) => {
     status: {
       allowNull: false,
       type: DataTypes.ENUM,
-      values: ['Pending', 'Shipped', 'Delivered', 'Cancelled']
+      values: ['Pending', 'Processing', 'Delivered', 'Cancelled']
+    },
+    provider: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    aesEncrypt: {
+      allowNull: true,
+      type: DataTypes.TEXT
+    },
+    shaEncrypt: {
+      allowNull: true,
+      type: DataTypes.TEXT
+    },
+    email: {
+      allowNull: false,
+      type: DataTypes.STRING
     },
     createdAt: {
       allowNull: false,
