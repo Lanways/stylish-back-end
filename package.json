@@ -31,7 +31,6 @@
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "mocha": "^10.2.0",
-    "morgan": "^1.10.0",
     "mysql2": "^3.6.5",
     "nyc": "^15.1.0",
     "passport": "^0.7.0",
@@ -52,7 +51,6 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@types/morgan": "^1.9.9",
     "ts-node-dev": "^2.0.0"
   },
   "scripts": {

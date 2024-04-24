@@ -6,7 +6,6 @@ import { existsSync } from 'fs'
 import path from 'path'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
-import logger from 'morgan'
 if (process.env.NODE_ENV !== "production") {
   dotenv.config()
 }
@@ -36,7 +35,6 @@ export async function initApp() {
     app.use(cookieParser())
     const router = (await import('./routes')).default
     const passport = (await import('./config/passport')).default
-    // app.use(logger('dev'))
     app.use(express.json())
     app.use(express.urlencoded({ extended: false }))
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
